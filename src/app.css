@@ -1,0 +1,74 @@
+html {
+  box-sizing: border-box;
+  outline: 0px;
+  border: 0px;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/*
+ * force page to be full viewport height
+ */
+html,
+body,
+#root,
+.boundary,
+.boundary > div:first-child {
+  height: 100%;
+}
+
+#root > .boundary > div:first-child {
+  max-width: 850px;
+  margin: 0 auto;
+}
+@media screen and (min-width: 550px) {
+  #root .boundary > div:first-child {
+    box-shadow: 0px 1px 10px #ccc;
+  }
+}
+
+body {
+  position: fixed;
+  margin: 0;
+  padding: 0;
+  color: #555;
+  background-color: transparent;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+  width: 100%;
+}
+
+a,
+a:visited {
+  color: #337ab7;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.mobile,
+.mobile button {
+  font-size: 14px !important;
+}
+
+.mobile input,
+.mobile textarea {
+  font-size: 16.5px !important;
+}
+
+.mobile select {
+  font-size: 15px !important;
+}
+
+/* prettier-ignore */
+.mobile select {
+  border: 1px solid #ccc;
+  box-shadow: inset 0 1px 5px #e2e2e2;
+}
+
+/* Input appearances */
+input::-webkit-caps-lock-indicator {
+  content: none;
+}

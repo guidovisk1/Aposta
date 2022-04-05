@@ -1,19 +1,18 @@
+import './app.css';
+
+import Button from './components/Button';
+
 function App() {
   return (
-    <div className="App">
+    <div>
       <header className="App-header">
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
         <p>Oi</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Button>Adicionar</Button>
+        <Button secondary>Voltar</Button>
+        <Button disabled>Voltar</Button>
       </header>
     </div>
   );

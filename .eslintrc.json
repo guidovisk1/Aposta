@@ -25,6 +25,7 @@
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
   "rules": {
     "jsx-a11y/label-has-associated-control": "off",
+    "react/function-component-definition": "off",
     "react/react-in-jsx-scope": "off",
     "jsx-a11y/alt-text": "off",
     "react/button-has-type": "off",
@@ -32,12 +33,14 @@
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "import/prefer-default-export": "off",
+    "react/require-default-props": "off",
     "import/extensions": [
       "error",
       "ignorePackages",
       {
         "ts": "never",
-        "tsx": "never"
+        "tsx": "never",
+        "css": "never"
       }
     ],
     "prettier/prettier": "error"
