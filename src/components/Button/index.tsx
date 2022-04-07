@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Container } from './styles';
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   secondary?: boolean;
 }
@@ -11,9 +11,10 @@ const Button: React.FC<ButtonProps> = ({
   children,
   disabled = false,
   secondary = false,
+  ...rest
 }) => {
   return (
-    <Container disabled={disabled} secondary={secondary}>
+    <Container {...rest} disabled={disabled} secondary={secondary}>
       {children}
     </Container>
   );
