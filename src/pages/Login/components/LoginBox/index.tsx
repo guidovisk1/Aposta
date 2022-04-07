@@ -65,7 +65,7 @@ const LoginBox: React.FC = () => {
       />
       <ButtonsWrapper>
         <Checkbox labelText="Lembrar usuário" />
-        <Button disabled loading={isLoading} onClick={() => handleSignIn()}>
+        <Button loading={isLoading} onClick={() => handleSignIn()}>
           Login
         </Button>
       </ButtonsWrapper>
