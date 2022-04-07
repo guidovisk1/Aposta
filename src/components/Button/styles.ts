@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 interface ButtonProps {
   secondary?: boolean;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 export const Container = styled.button<ButtonProps>`
@@ -16,6 +17,7 @@ export const Container = styled.button<ButtonProps>`
   letter-spacing: 1.3px;
   font-weight: bold;
   cursor: pointer;
+  position: relative;
 
   :hover {
     transform: scale(1.05);
@@ -25,6 +27,16 @@ export const Container = styled.button<ButtonProps>`
   :active {
     transform: scale(0.95);
     transition: 0.2s;
+  }
+
+  @keyframes button-loading-spinner {
+    from {
+      transform: rotate(0turn);
+    }
+
+    to {
+      transform: rotate(1turn);
+    }
   }
 
   box-shadow: 0px 15px 15px rgba(0, 0, 0, 0.15);
@@ -45,5 +57,26 @@ export const Container = styled.button<ButtonProps>`
       font-size: 13px;
       background-color: #c6c6c6;
       cursor: not-allowed;
+    `}
+
+  ${props =>
+    props.loading &&
+    css`
+      &::after {
+        content: '';
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        border: 4px solid transparent;
+        border-top-color: #ffffff;
+
+        border-radius: 50%;
+        animation: button-loading-spinner 1s ease infinite;
+      }
     `}
 `;
