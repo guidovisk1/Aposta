@@ -23,7 +23,7 @@ export const HTMLCheckbox = styled.input`
   }
 `;
 
-export const LabelText = styled.span`
+export const LabelText = styled.label`
   font-size: 13px;
   font-weight: 600;
   line-height: 22px;
