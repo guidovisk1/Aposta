@@ -1,12 +1,15 @@
+import AppProvider from './hooks/Auth';
+
 import './app.css';
 
-import Button from './components/Button';
 import Login from './pages/Login';
 
 function App() {
   return (
     <div>
-      <Login />
+      <AppProvider>
+        <Login />
+      </AppProvider>
     </div>
   );
 }
