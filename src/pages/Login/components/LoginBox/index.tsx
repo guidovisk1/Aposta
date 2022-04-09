@@ -52,6 +52,8 @@ const LoginBox: React.FC = () => {
 
       <Input
         labelText="Login"
+        hasError
+        errorMessage="E-mail inválido..."
         placeholder="Login de usuário"
         onChange={handleOnChange}
         name="email"
