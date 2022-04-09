@@ -20,7 +20,7 @@ const Button: React.FC<ButtonProps> = ({
       {...rest}
       disabled={loading ? true : disabled}
       secondary={secondary}
-      loading={loading}
+      loading={loading || undefined}
     >
       {loading ? '' : children}
     </Container>
