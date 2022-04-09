@@ -19,9 +19,18 @@ test('Tests if the button is really disabled', () => {
 });
 
 test('Tests if the button is set to secondary', () => {
-  render(<Button>Button</Button>);
+  render(<Button secondary>Button</Button>);
 
   expect(screen.getByRole('button')).toHaveTextContent('Button');
-  expect(screen.getByRole('button')).toHaveStyle('background-color: #ff5427');
-  expect(screen.getByRole('button')).toHaveStyle('color: #fff');
+  expect(screen.getByRole('button')).toHaveStyle('border-color: #ff5427');
+  expect(screen.getByRole('button')).toHaveStyle('color: #ff5427');
+});
+
+test('Tests if the button is set to loading', () => {
+  render(<Button loading>Button</Button>);
+
+  expect(screen.getByRole('button')).not.toHaveTextContent('Button');
+  expect(screen.getByRole('button')).toBeDisabled();
+  expect(screen.getByRole('button')).toHaveStyle('cursor: not-allowed');
+  expect(screen.getByRole('button')).toHaveStyle('background-color: #c6c6c6');
 });

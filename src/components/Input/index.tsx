@@ -6,18 +6,27 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   labelText?: string;
   placeholder?: string;
   name?: string;
+  hasError?: boolean;
+  errorMessage?: string;
 }
 
 const Input: React.FC<InputProps> = ({
+  hasError,
+  errorMessage,
   labelText,
   placeholder,
   name = '',
   ...rest
 }) => {
   return (
-    <Container>
-      <Label>{labelText}</Label>
-      <HTMLInput {...rest} name={name} placeholder={placeholder} />
+    <Container hasError={hasError}>
+      <Label hasError={hasError}>{labelText}</Label>
+      <HTMLInput
+        {...rest}
+        name={name}
+        hasError={hasError}
+        placeholder={hasError ? errorMessage : placeholder}
+      />
     </Container>
   );
 };
