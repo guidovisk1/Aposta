@@ -11,8 +11,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input: React.FC<InputProps> = ({
-  hasError = false,
-  errorMessage = '',
+  hasError,
+  errorMessage,
   labelText,
   placeholder,
   name = '',
