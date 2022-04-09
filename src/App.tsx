@@ -1,16 +1,16 @@
+import { BrowserRouter as Router } from 'react-router-dom';
 import AppProvider from './hooks/Auth';
 
 import './app.css';
-
-import Login from './pages/Login';
+import Routes from './routes';
 
 function App() {
   return (
-    <div>
+    <Router>
       <AppProvider>
-        <Login />
+        <Routes />
       </AppProvider>
-    </div>
+    </Router>
   );
 }
 
