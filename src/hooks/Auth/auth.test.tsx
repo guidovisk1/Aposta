@@ -1,6 +1,4 @@
-import { render, screen } from '@testing-library/react';
-import { renderHook, act } from '@testing-library/react-hooks';
-import axios from 'axios';
+import { renderHook } from '@testing-library/react-hooks';
 
 import AuthProvider from '.';
 import { useAuth } from './auth';
