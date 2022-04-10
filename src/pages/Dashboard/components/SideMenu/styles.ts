@@ -9,10 +9,10 @@ export const ContainerOpened = styled.aside`
 
   @keyframes openning {
     0% {
-      opacity: 0;
+      width: 80px;
     }
     100% {
-      opacity: 1;
+      width: 372px;
     }
   }
 
@@ -67,6 +67,20 @@ export const MenuItemOpened = styled(Link)`
   padding: 0 30px;
   text-align: left;
   text-decoration: none;
+  transition: 1.2;
+
+  @keyframes menuItemAnimation {
+    0% {
+      opacity: 0;
+      transform: translateX(-300px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  animation: menuItemAnimation 0.6s;
 
   span {
     margin-left: 20px;
@@ -99,15 +113,16 @@ export const MenuItemOpened = styled(Link)`
 `;
 
 export const ContainerClosed = styled.aside`
+  overflow-x: hidden;
   width: 80px;
   height: 100vh;
 
   @keyframes closing {
     0% {
-      opacity: 0;
+      width: 372px;
     }
     100% {
-      opacity: 1;
+      width: 80px;
     }
   }
 
@@ -170,6 +185,19 @@ export const MenuItem = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @keyframes menuItemAnimationClosing {
+    0% {
+      opacity: 0;
+      transform: translateX(300px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0px);
+    }
+  }
+
+  animation: menuItemAnimationClosing 0.4s;
 
   &:hover {
     background: rgba(0, 0, 0, 0.2);
