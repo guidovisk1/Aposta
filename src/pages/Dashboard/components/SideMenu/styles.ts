@@ -1,7 +1,11 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Link } from 'react-router-dom';
 import { FiX } from 'react-icons/fi';
+
+interface MenuItem {
+  isActive?: boolean;
+}
 
 export const ContainerOpened = styled.aside`
   width: 372px;
@@ -59,7 +63,7 @@ export const MenuTitleText = styled.h1`
   color: #fff;
 `;
 
-export const MenuItemOpened = styled(Link)`
+export const MenuItemOpened = styled(Link)<MenuItem>`
   width: 100%;
   height: 71.5px;
   display: flex;
@@ -90,9 +94,17 @@ export const MenuItemOpened = styled(Link)`
     letter-spacing: 0.55px;
   }
 
+  ${props =>
+    props.isActive &&
+    css`
+      border-right: 4.5px solid #ff5427;
+      background: rgba(0, 0, 0, 0.2);
+    `}
+
   &:hover {
     background: rgba(0, 0, 0, 0.2);
     transition: 0.4s;
+    border-right: 4.5px solid #ff5427;
   }
 
   & img:hover {
@@ -179,7 +191,7 @@ export const MenuList = styled.ul`
   margin-top: 8.5px;
 `;
 
-export const MenuItem = styled(Link)`
+export const MenuItem = styled(Link)<MenuItem>`
   width: 100%;
   height: 71.5px;
   display: flex;
@@ -199,8 +211,16 @@ export const MenuItem = styled(Link)`
 
   animation: menuItemAnimationClosing 0.4s;
 
+  ${props =>
+    props.isActive &&
+    css`
+      border-right: 4.5px solid #ff5427;
+      background: rgba(0, 0, 0, 0.2);
+    `}
+
   &:hover {
     background: rgba(0, 0, 0, 0.2);
+    border-right: 4.5px solid #ff5427;
   }
 
   & img:hover {
