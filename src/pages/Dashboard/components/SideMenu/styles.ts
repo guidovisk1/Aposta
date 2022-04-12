@@ -10,6 +10,7 @@ interface MenuItem {
 export const ContainerOpened = styled.aside`
   width: 372px;
   height: 100vh;
+  z-index: 99;
 
   @keyframes openning {
     0% {

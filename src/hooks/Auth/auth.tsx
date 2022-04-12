@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { createContext, useState, useContext, useCallback } from 'react';
 
 import { api, endpoints } from '../../utils';
 
@@ -13,36 +7,44 @@ interface SignInCredentials {
   password: string;
 }
 
+interface UserInfo {
+  cod_grupousuarios: string;
+  cod_usuario: string;
+  custo_hora: number;
+  email: string;
+  funcao: string;
+  grupoUsuarios: string;
+  matricula: string;
+  nome: string;
+  senha: string;
+  setor: string;
+}
 interface AuthState {
   token: string;
-  user: object;
+  user: UserInfo;
 }
 interface AuthContextData {
-  user: object;
+  user: UserInfo;
   loading: boolean;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
+  signed: boolean;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [data, setData] = useState<AuthState>({} as AuthState);
-  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<AuthState>(() => {
+    const token = localStorage.getItem('@GOIT:token') as string;
+    const user = localStorage.getItem('@GOIT:user') as string;
 
-  useEffect(() => {
-    async function loadStoragedData(): Promise<void> {
-      const token = localStorage.getItem('@GOIT:token');
-      const user = localStorage.getItem('@GOIT:user');
-
-      if (token && user) {
-        setData({ token, user: JSON.parse(user) });
-      }
-      setLoading(false);
+    if (token && user) {
+      return { token, user: JSON.parse(user) };
     }
+    return {} as AuthState;
+  });
 
-    loadStoragedData();
-  }, []);
+  const [loading, _] = useState(true);
 
   const signIn = useCallback(async ({ email, password }) => {
     const response = await api.post(endpoints.USERS.AUTH, {
@@ -65,7 +67,15 @@ export const AuthProvider: React.FC = ({ children }) => {
     setData({} as AuthState);
   }, []);
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut, loading }}>
+    <AuthContext.Provider
+      value={{
+        user: data.user,
+        signIn,
+        signOut,
+        loading,
+        signed: Boolean(data.user),
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

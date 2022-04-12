@@ -1,17 +1,28 @@
 import React from 'react';
-import { Switch } from 'react-router-dom';
-
-import Route from './Route';
-
-import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
 
-const Routes: React.FC = () => (
-  <Switch>
-    <Route path="/" exact component={Login} />
-    <Route path="/dashboard" isPrivate component={Dashboard} />
-    <Route path="*" component={Login} />
-  </Switch>
-);
+import AuthRoutes from './auth.routes';
+import AppRoutes from './app.routes';
+
+import { useAuth } from '../hooks/Auth/auth';
+
+const Routes: React.FC = () => {
+  const { signed } = useAuth();
+
+  const privateRoutes = () => {
+    return (
+      <Dashboard>
+        <AppRoutes />
+      </Dashboard>
+    );
+  };
+
+  const publicRoutes = () => {
+    return <AuthRoutes />;
+  };
+
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return <>{signed ? privateRoutes() : publicRoutes()}</>;
+};
 
 export default Routes;

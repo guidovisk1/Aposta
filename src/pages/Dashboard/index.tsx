@@ -5,8 +5,9 @@ import menuOptions from '../../utils/menu';
 import { Container } from './styles';
 
 import SideMenu from './components/SideMenu';
+import HeaderBar from './components/HeaderBar';
 
-const Dashboard: React.FC = () => {
+const Dashboard: React.FC = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpening = (parameter: boolean) => {
@@ -19,6 +20,8 @@ const Dashboard: React.FC = () => {
         isOpen={isOpen}
         menuOptions={menuOptions}
       />
+      <HeaderBar />
+      {children}
     </Container>
   );
 };
