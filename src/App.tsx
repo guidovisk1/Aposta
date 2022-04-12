@@ -1,4 +1,4 @@
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import AppProvider from './hooks/Auth';
 
 import './app.css';
@@ -6,11 +6,11 @@ import Routes from './routes';
 
 function App() {
   return (
-    <Router>
-      <AppProvider>
+    <AppProvider>
+      <BrowserRouter>
         <Routes />
-      </AppProvider>
-    </Router>
+      </BrowserRouter>
+    </AppProvider>
   );
 }
 
