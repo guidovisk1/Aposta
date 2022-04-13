@@ -2,14 +2,12 @@ import React from 'react';
 
 import { Container } from './styles';
 
+import SideInfoPanel from '../../components/SideInfoPanel';
+
 const Users: React.FC = () => {
   return (
-    <Container>
-      <h1>
-        UsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersU
-        <br />
-        sersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsersUsers
-      </h1>
+    <Container className="page-container">
+      <SideInfoPanel title="Usuários" />
     </Container>
   );
 };
