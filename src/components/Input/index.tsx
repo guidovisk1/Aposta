@@ -8,6 +8,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   name?: string;
   hasError?: boolean;
   errorMessage?: string;
+  width?: string;
+  height?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -16,11 +18,18 @@ const Input: React.FC<InputProps> = ({
   labelText,
   placeholder,
   name = '',
+  width = '100%',
+  height = '55px',
   ...rest
 }) => {
   return (
-    <Container hasError={hasError}>
-      <Label hasError={hasError}>{labelText}</Label>
+    <Container
+      width={width}
+      height={height}
+      hasError={hasError}
+      labelText={labelText}
+    >
+      {labelText && <Label hasError={hasError}>{labelText}</Label>}
       <HTMLInput
         {...rest}
         name={name}

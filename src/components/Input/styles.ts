@@ -2,6 +2,9 @@ import styled, { css } from 'styled-components';
 
 interface ErrorProps {
   hasError?: boolean;
+  labelText?: string;
+  width?: string;
+  height?: string;
 }
 
 export const Container = styled.div<ErrorProps>`
@@ -14,6 +17,26 @@ export const Container = styled.div<ErrorProps>`
     props.hasError &&
     css`
       border-bottom: 2.5px solid #c53030;
+    `}
+
+  ${props =>
+    !props.labelText &&
+    css`
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+    `}
+
+    ${props =>
+    props.width &&
+    css`
+      width: ${props.width} !important;
+    `}
+
+    ${props =>
+    props.height &&
+    css`
+      height: ${props.height} !important;
     `}
 `;
 
