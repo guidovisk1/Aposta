@@ -27,15 +27,23 @@ body {
 }
 
 .page-container {
-  width: 1366px;
+  width: 1199px;
   height: calc(100% - 60px);
   left: 80px;
   top: 60px;
   position: absolute;
   overflow: hidden;
 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   z-index: 99;
   color: black;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
 }
 
 a,
