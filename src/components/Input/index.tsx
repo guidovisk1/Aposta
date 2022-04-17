@@ -13,7 +13,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input: React.FC<InputProps> = ({
-  hasError,
+  hasError = false,
   errorMessage,
   labelText,
   placeholder,
