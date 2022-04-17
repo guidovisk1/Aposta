@@ -1,10 +1,11 @@
 import styled from 'styled-components';
+import { Form } from 'formik';
 
 interface InputsWrapperProps {
   column?: boolean;
 }
 
-export const Container = styled.form`
+export const Container = styled(Form)`
   width: 610px;
   height: 629px;
   background-color: #fff;
