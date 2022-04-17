@@ -7,7 +7,7 @@ import SideInfoPanel from '../../components/SideInfoPanel';
 const UsersGroup: React.FC = () => {
   return (
     <Container className="page-container">
-      <SideInfoPanel title="Grupos" />
+      <SideInfoPanel onSearch={() => console.log('Oi')} title="Grupos" />
     </Container>
   );
 };

@@ -8,8 +8,24 @@ import Form from './components/Form';
 
 import { getUsers } from '../../services/user.service';
 
+interface User {
+  cod_grupousuarios: string;
+  cod_usuario: string;
+  custo_hora: number;
+  email: string;
+  funcao: string;
+  grupoUsuarios: string;
+  matricula: string;
+  nome: string;
+  senha: string;
+  setor: string;
+}
+
 const Users: React.FC = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([] as User[]);
+
+  const [searchedUsers, setSearchedUsers] = useState<User[]>([] as User[]);
+  const [selecteduser, setSelecteduser] = useState<User>({} as User);
 
   useEffect(() => {
     const getAllUsers = async () => {
@@ -19,23 +35,39 @@ const Users: React.FC = () => {
     getAllUsers();
   }, []);
 
-  function clickMe() {
-    console.log('Fui clicado e apareci no USERS page');
+  function handleUserSelection(selected: User) {
+    setSelecteduser(selected);
   }
 
   function openForm() {
-    console.log('Abri o modal');
+    setSelecteduser({} as User);
+  }
+  function onSearch(searchedValue: string) {
+    if (searchedValue === undefined || searchedValue === '')
+      setSearchedUsers([]);
+    setSearchedUsers(
+      users.filter(user =>
+        user.nome.toLowerCase().includes(searchedValue.toLocaleLowerCase()),
+      ),
+    );
   }
 
   return (
     <Container className="page-container">
-      <SideInfoPanel openForm={() => openForm()} title="Usuários">
+      <SideInfoPanel
+        onSearch={searchedValue => onSearch(searchedValue)}
+        openForm={() => openForm()}
+        title="Usuários"
+      >
         {users.length > 0 && (
-          <ListItems list={users} onClicked={() => clickMe()} />
+          <ListItems
+            list={searchedUsers.length ? searchedUsers : users}
+            onClicked={selectedUser => handleUserSelection(selectedUser)}
+          />
         )}
       </SideInfoPanel>
 
-      <Form title="Adicionar um Usuário" />
+      <Form userSelected={selecteduser} title="Adicionar um Usuário" />
     </Container>
   );
 };

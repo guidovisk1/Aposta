@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 
 import { Formik } from 'formik';
@@ -18,12 +19,28 @@ import { createUser } from '../../../../services/user.service';
 
 import validations from './validations';
 
-interface FormProps {
-  title: string;
+interface User {
+  cod_grupousuarios: string;
+  cod_usuario: string;
+  custo_hora: number;
+  email: string;
+  funcao: string;
+  grupoUsuarios: string;
+  matricula: string;
+  nome: string;
+  senha: string;
+  setor: string;
 }
 
-const Form: React.FC<FormProps> = ({ title }) => {
+interface FormProps {
+  title: string;
+  userSelected?: User;
+}
+
+const Form: React.FC<FormProps> = ({ title, userSelected }) => {
   const codUsuario = String(Math.random());
+  const isUserSelected = Object.keys(userSelected || {});
+
   return (
     <Formik
       initialValues={{
@@ -36,12 +53,25 @@ const Form: React.FC<FormProps> = ({ title }) => {
         userRegistrationCode: '',
         userSector: '',
         userStatus: '',
-        userHourRate: '',
+        userHourRate: 0,
       }}
       onSubmit={values => {
-        createUser({ ...values, codUsuario });
+        if (isUserSelected.length > 0) {
+          return createUser({
+            codUsuario: userSelected?.cod_usuario || '',
+            userGroup: userSelected?.cod_grupousuarios || '',
+            userName: userSelected?.nome || '',
+            userEmail: userSelected?.email || '',
+            password: userSelected?.senha || '',
+            userRole: userSelected?.funcao || '',
+            userHourRate: userSelected?.custo_hora || 0,
+            userSector: userSelected?.setor || '',
+            userRegistrationCode: userSelected?.matricula || '',
+          });
+        }
+        return createUser({ ...values, codUsuario });
       }}
-      validationSchema={validations}
+      validationSchema={isUserSelected.length > 0 ? undefined : validations}
     >
       {({
         values,
@@ -49,11 +79,10 @@ const Form: React.FC<FormProps> = ({ title }) => {
         touched,
         handleChange,
         handleBlur,
-        // handleSubmit,
         isSubmitting,
       }) => (
         <Container>
-          <Title>{title}</Title>
+          <Title>{isUserSelected.length > 0 ? 'Editar Usuário' : title}</Title>
           <Section className="first">
             <TitleSectionWrapper>
               <TitleSectionText>ACESSO</TitleSectionText>
@@ -102,7 +131,7 @@ const Form: React.FC<FormProps> = ({ title }) => {
                   !!errors.userRole && touched.userRole && !!errors.userRole
                 }
                 errorMessage={errors.userRole}
-                value={values.userRole}
+                value={userSelected?.funcao || values.userRole}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Selecione"
@@ -115,7 +144,7 @@ const Form: React.FC<FormProps> = ({ title }) => {
                   !!errors.userGroup && touched.userGroup && !!errors.userGroup
                 }
                 errorMessage={errors.userGroup}
-                value={values.userGroup}
+                value={userSelected?.grupoUsuarios || values.userGroup}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Selecione"
@@ -131,7 +160,7 @@ const Form: React.FC<FormProps> = ({ title }) => {
                 }
                 errorMessage={errors.userName}
                 name="userName"
-                value={values.userName}
+                value={userSelected?.nome || values.userName}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Insira o nome do usuário"
@@ -144,7 +173,7 @@ const Form: React.FC<FormProps> = ({ title }) => {
                   !!errors.userEmail && touched.userEmail && !!errors.userEmail
                 }
                 errorMessage={errors.userEmail}
-                value={values.userEmail}
+                value={userSelected?.email || values.userEmail}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Insira o email do usuário"
@@ -161,7 +190,7 @@ const Form: React.FC<FormProps> = ({ title }) => {
               <Input
                 width="255px"
                 labelText="CUSTO/HORA"
-                value={values.userHourRate}
+                value={userSelected?.custo_hora || values.userHourRate}
                 name="userHourRate"
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -177,7 +206,7 @@ const Form: React.FC<FormProps> = ({ title }) => {
                   !!errors.userRegistrationCode
                 }
                 errorMessage={errors.userRegistrationCode}
-                value={values.userRegistrationCode}
+                value={userSelected?.matricula || values.userRegistrationCode}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Informe o número"
@@ -189,7 +218,7 @@ const Form: React.FC<FormProps> = ({ title }) => {
                 width="255px"
                 labelText="SETOR"
                 name="userSector"
-                value={values.userSector}
+                value={userSelected?.setor || values.userSector}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Informe o setor do usuário"
@@ -214,7 +243,7 @@ const Form: React.FC<FormProps> = ({ title }) => {
 
           <ButtonWrapper>
             <Button type="submit" full disabled={isSubmitting}>
-              Adicionar
+              {isUserSelected.length > 0 ? 'Editar' : 'Adicionar'}
             </Button>
           </ButtonWrapper>
         </Container>

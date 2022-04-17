@@ -18,14 +18,20 @@ import {
 } from './styles';
 
 interface Item {
-  name: string;
-  userType: string;
-  sector: string;
-  id: string;
+  cod_grupousuarios: string;
+  cod_usuario: string;
+  custo_hora: number;
+  email: string;
+  funcao: string;
+  grupoUsuarios: string;
+  matricula: string;
+  nome: string;
+  senha: string;
+  setor: string;
 }
 interface ListItemProps {
   list: Item[];
-  onClicked?: () => void;
+  onClicked: (user: Item) => void;
 }
 
 const ListItem: React.FC<ListItemProps> = ({ list, onClicked }) => {
@@ -33,7 +39,7 @@ const ListItem: React.FC<ListItemProps> = ({ list, onClicked }) => {
     <Container>
       {list.length &&
         list.map(user => (
-          <Item key={user.id} onClick={onClicked}>
+          <Item key={user.cod_usuario} onClick={() => onClicked(user)}>
             <LogoWrapper>
               <RoundedOutline>
                 <img src={userIcon} />
@@ -42,18 +48,18 @@ const ListItem: React.FC<ListItemProps> = ({ list, onClicked }) => {
 
             <UserInfoWrapper>
               <NameWrapper>
-                <Name>{user.name}</Name>
+                <Name>{user.nome}</Name>
               </NameWrapper>
 
               <DownInfoWrapper>
                 <UserTypeWrapper>
                   <UserType>Tipo:</UserType>
-                  <UserTypeText userType={user.userType}>
-                    {user.userType === 'admin' ? 'ADMIN' : 'USER'}
+                  <UserTypeText userType={user.funcao}>
+                    {user.funcao === 'admin' ? 'ADMIN' : 'USER'}
                   </UserTypeText>
                 </UserTypeWrapper>
 
-                <Sector>SETOR: {user.sector}</Sector>
+                <Sector>SETOR: {user.setor.toUpperCase()}</Sector>
               </DownInfoWrapper>
             </UserInfoWrapper>
           </Item>

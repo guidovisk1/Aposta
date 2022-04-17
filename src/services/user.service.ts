@@ -7,7 +7,7 @@ interface User {
   userEmail: string;
   password: string;
   userRole: string;
-  userHourRate: string;
+  userHourRate: number;
   userSector: string;
   userRegistrationCode: string;
 }
