@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Formik, Field } from 'formik';
+import { Formik } from 'formik';
 import {
   Container,
   Title,
@@ -14,6 +14,8 @@ import {
 import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';
 
+import { createUser } from '../../../../services/user.service';
+
 import validations from './validations';
 
 interface FormProps {
@@ -21,6 +23,7 @@ interface FormProps {
 }
 
 const Form: React.FC<FormProps> = ({ title }) => {
+  const codUsuario = String(Math.random());
   return (
     <Formik
       initialValues={{
@@ -36,7 +39,7 @@ const Form: React.FC<FormProps> = ({ title }) => {
         userHourRate: '',
       }}
       onSubmit={values => {
-        console.log(values);
+        createUser({ ...values, codUsuario });
       }}
       validationSchema={validations}
     >
@@ -46,9 +49,8 @@ const Form: React.FC<FormProps> = ({ title }) => {
         touched,
         handleChange,
         handleBlur,
-        handleSubmit,
+        // handleSubmit,
         isSubmitting,
-        /* and other goodies */
       }) => (
         <Container>
           <Title>{title}</Title>

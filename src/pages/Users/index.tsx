@@ -6,7 +6,7 @@ import SideInfoPanel from '../../components/SideInfoPanel';
 import ListItems from './components/ListItem';
 import Form from './components/Form';
 
-import { getUsers } from './user.service';
+import { getUsers } from '../../services/user.service';
 
 const Users: React.FC = () => {
   const [users, setUsers] = useState([]);
