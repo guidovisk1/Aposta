@@ -2,7 +2,8 @@ import React from 'react';
 
 import { Container, Label, HTMLInput } from './styles';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface selectInputProps
+  extends React.InputHTMLAttributes<HTMLSelectElement> {
   labelText?: string;
   placeholder?: string;
   name?: string;
@@ -10,10 +11,11 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;
   width?: string;
   height?: string;
-  disabled?: boolean;
+  options: any[];
+  consideredValue?: string;
 }
 
-const Input: React.FC<InputProps> = ({
+const SelectInput: React.FC<selectInputProps> = ({
   hasError = false,
   errorMessage,
   labelText,
@@ -21,7 +23,8 @@ const Input: React.FC<InputProps> = ({
   name = '',
   width = '100%',
   height = '55px',
-  disabled,
+  options,
+  consideredValue,
   ...rest
 }) => {
   return (
@@ -35,12 +38,17 @@ const Input: React.FC<InputProps> = ({
       <HTMLInput
         {...rest}
         name={name}
-        disabled={disabled}
         hasError={hasError}
         placeholder={hasError ? errorMessage : placeholder}
-      />
+      >
+        {options.map(item => (
+          <option value={item[consideredValue || item.label]} key={item.id}>
+            {(item as any).label}
+          </option>
+        ))}
+      </HTMLInput>
     </Container>
   );
 };
 
-export default Input;
+export default SelectInput;

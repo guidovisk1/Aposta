@@ -6,6 +6,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   secondary?: boolean;
   loading?: boolean;
+  full?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -13,6 +14,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   secondary = false,
   loading = false,
+  full = false,
   ...rest
 }) => {
   return (
@@ -21,6 +23,7 @@ const Button: React.FC<ButtonProps> = ({
       disabled={loading ? true : disabled}
       secondary={secondary}
       loading={loading || undefined}
+      full={full}
     >
       {loading ? '' : children}
     </Container>

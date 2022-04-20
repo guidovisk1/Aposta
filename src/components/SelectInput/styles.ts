@@ -54,7 +54,7 @@ export const Label = styled.span<ErrorProps>`
     `}
 `;
 
-export const HTMLInput = styled.input<ErrorProps>`
+export const HTMLInput = styled.select<ErrorProps>`
   width: 100%;
   border: none;
   background: transparent;

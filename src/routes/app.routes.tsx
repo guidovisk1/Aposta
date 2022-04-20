@@ -4,6 +4,7 @@ import { Redirect, Switch, Route as RouterDom } from 'react-router-dom';
 import Route from './components/Route';
 
 import Users from '../pages/Users';
+import UsersGroup from '../pages/UsersGroup';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -13,7 +14,7 @@ const AppRoutes: React.FC = () => {
         isPrivate
         exact
         path="/dashboard/grupo-usuario"
-        component={Users}
+        component={UsersGroup}
       />
       <RouterDom path="*" render={() => <Redirect to="/" />} />
     </Switch>

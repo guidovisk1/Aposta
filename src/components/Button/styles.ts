@@ -4,11 +4,18 @@ interface ButtonProps {
   secondary?: boolean;
   disabled?: boolean;
   loading?: boolean;
+  full?: boolean;
 }
 
 export const Container = styled.button<ButtonProps>`
   width: 200px;
   height: 51px;
+
+  ${props =>
+    props.full &&
+    css`
+      width: 100%;
+    `}
 
   background-color: #ff5427;
   color: #fff;
