@@ -10,6 +10,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string;
   width?: string;
   height?: string;
+  disabled?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -20,6 +21,7 @@ const Input: React.FC<InputProps> = ({
   name = '',
   width = '100%',
   height = '55px',
+  disabled,
   ...rest
 }) => {
   return (
@@ -33,6 +35,7 @@ const Input: React.FC<InputProps> = ({
       <HTMLInput
         {...rest}
         name={name}
+        disabled={disabled}
         hasError={hasError}
         placeholder={hasError ? errorMessage : placeholder}
       />
