@@ -12,4 +12,7 @@ export const endpoints = {
   USER_GROUP: {
     GET_ALL: 'grupousuarios',
   },
+  EQUIPMENT: {
+    GET_ALL: 'equipamentos',
+  },
 };

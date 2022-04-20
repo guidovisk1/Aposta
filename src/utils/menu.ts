@@ -13,6 +13,13 @@ const menuOptions = [
     breadCrumb: 'Grupo de Usuários',
     id: 2,
   },
+  {
+    title: 'Cadastro de Equipamentos',
+    icon: 'equipmentIcon',
+    path: '/dashboard/equipamentos',
+    breadCrumb: 'Equipamentos',
+    id: 3,
+  },
 ];
 
 export default menuOptions;
