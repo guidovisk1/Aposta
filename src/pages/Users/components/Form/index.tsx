@@ -1,7 +1,11 @@
+/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { v4 } from 'uuid';
 
 import { Formik } from 'formik';
+import { api, endpoints } from '../../../../utils';
+
 import {
   Container,
   Title,
@@ -13,9 +17,10 @@ import {
 } from './styles';
 
 import Input from '../../../../components/Input';
+import SelectInput from '../../../../components/SelectInput';
 import Button from '../../../../components/Button';
 
-import { createUser } from '../../../../services/user.service';
+import { createUser, updateUser } from '../../../../services/user.service';
 
 import validations from './validations';
 
@@ -38,40 +43,79 @@ interface FormProps {
 }
 
 const Form: React.FC<FormProps> = ({ title, userSelected }) => {
-  const codUsuario = String(Math.random());
+  const cod_usuario = v4();
   const isUserSelected = Object.keys(userSelected || {});
+
+  const [selectedUserAux, setSelectedUserAux] = useState<User | undefined>(
+    undefined,
+  );
+
+  const [groups, setGroups] = useState([]);
+
+  const roles = [
+    { label: 'Usuário', id: 1, value: 'usuario' },
+    { label: 'Usuário Aprovador', value: 'usuario aprovador', id: 2 },
+    { label: 'Admin', value: 'admin', id: 3 },
+    { label: 'Admin Aprovador', value: 'admin aprovador', id: 4 },
+  ];
+
+  function transFormGroups(data: any) {
+    return data.map((group: any) => {
+      return {
+        label: group.descricao,
+        id: group.cod_grupoUsuarios,
+      };
+    });
+  }
+
+  useEffect(() => {
+    setSelectedUserAux(undefined);
+    setSelectedUserAux(userSelected || undefined);
+  }, [userSelected]);
+
+  useEffect(() => {
+    async function getUserGroups() {
+      const { data } = await api.get(endpoints.USER_GROUP.GET_ALL);
+
+      setGroups(transFormGroups(data));
+    }
+
+    getUserGroups();
+  }, []);
 
   return (
     <Formik
       initialValues={{
-        login: '',
-        password: '',
-        userRole: '',
-        userGroup: '',
-        userName: '',
-        userEmail: '',
-        userRegistrationCode: '',
-        userSector: '',
-        userStatus: '',
-        userHourRate: 0,
+        cod_grupousuarios: '',
+        cod_usuario: '',
+        custo_hora: 0,
+        email: '',
+        funcao: '',
+        grupoUsuarios: '',
+        matricula: '',
+        nome: '',
+        senha: '',
+        setor: '',
+        ...selectedUserAux,
       }}
+      enableReinitialize
       onSubmit={values => {
+        console.log(values);
         if (isUserSelected.length > 0) {
-          return createUser({
-            codUsuario: userSelected?.cod_usuario || '',
-            userGroup: userSelected?.cod_grupousuarios || '',
-            userName: userSelected?.nome || '',
-            userEmail: userSelected?.email || '',
-            password: userSelected?.senha || '',
-            userRole: userSelected?.funcao || '',
-            userHourRate: userSelected?.custo_hora || 0,
-            userSector: userSelected?.setor || '',
-            userRegistrationCode: userSelected?.matricula || '',
+          return updateUser(values?.cod_usuario || '', {
+            cod_grupousuarios: values?.cod_grupousuarios || '',
+            nome: values?.nome || '',
+            email: values?.email || '',
+            funcao: values?.funcao || '',
+            custo_hora: values?.custo_hora || 0,
+            setor: values?.setor || '',
+
+            // TODO userStatus - waiting API implementation
           });
         }
-        return createUser({ ...values, codUsuario });
+        return createUser({ ...values, cod_usuario });
       }}
-      validationSchema={isUserSelected.length > 0 ? undefined : validations}
+      validationSchema={validations}
     >
       {({
         values,
@@ -90,26 +134,25 @@ const Form: React.FC<FormProps> = ({ title, userSelected }) => {
 
             <InputsWrapper>
               <Input
+                name="email"
                 width="255px"
-                name="login"
-                labelText="Login"
-                hasError={!!errors.login && touched.login && !!errors.login}
-                errorMessage={errors.login}
-                value={values.login}
+                labelText="E-MAIL*"
+                hasError={!!errors.email && touched.email && !!errors.email}
+                errorMessage={errors.email}
+                value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                placeholder="Login"
+                placeholder="Insira o email do usuário"
               />
               <Input
                 width="255px"
-                name="password"
+                name="senha"
                 labelText="Senha"
-                hasError={
-                  !!errors.password && touched.password && !!errors.password
-                }
-                errorMessage={errors.password}
+                disabled={!!isUserSelected.length}
+                hasError={!!errors.senha && touched.senha && !!errors.senha}
+                errorMessage={errors.senha}
                 type="password"
-                value={values.password}
+                value={values.senha}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Senha"
@@ -123,28 +166,32 @@ const Form: React.FC<FormProps> = ({ title, userSelected }) => {
             </TitleSectionWrapper>
 
             <InputsWrapper>
-              <Input
+              <SelectInput
                 width="255px"
-                name="userRole"
+                name="funcao"
                 labelText="FUNÇÃO*"
-                hasError={
-                  !!errors.userRole && touched.userRole && !!errors.userRole
-                }
-                errorMessage={errors.userRole}
-                value={userSelected?.funcao || values.userRole}
+                options={roles}
+                consideredValue="value"
+                hasError={!!errors.funcao && touched.funcao && !!errors.funcao}
+                errorMessage={errors.funcao}
+                value={values.funcao}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Selecione"
               />
-              <Input
+              <SelectInput
                 width="255px"
-                name="userGroup"
+                name="cod_grupousuarios"
                 labelText="GRUPO*"
+                options={groups}
+                consideredValue="id"
                 hasError={
-                  !!errors.userGroup && touched.userGroup && !!errors.userGroup
+                  !!errors.cod_grupousuarios &&
+                  touched.cod_grupousuarios &&
+                  !!errors.cod_grupousuarios
                 }
-                errorMessage={errors.userGroup}
-                value={userSelected?.grupoUsuarios || values.userGroup}
+                errorMessage={errors.cod_grupousuarios}
+                value={values.cod_grupousuarios}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Selecione"
@@ -155,28 +202,13 @@ const Form: React.FC<FormProps> = ({ title, userSelected }) => {
               <Input
                 width="255px"
                 labelText="NOME*"
-                hasError={
-                  !!errors.userName && touched.userName && !!errors.userName
-                }
-                errorMessage={errors.userName}
-                name="userName"
-                value={userSelected?.nome || values.userName}
+                hasError={!!errors.nome && touched.nome && !!errors.nome}
+                errorMessage={errors.nome}
+                name="nome"
+                value={values.nome}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Insira o nome do usuário"
-              />
-              <Input
-                name="userEmail"
-                width="255px"
-                labelText="E-MAIL*"
-                hasError={
-                  !!errors.userEmail && touched.userEmail && !!errors.userEmail
-                }
-                errorMessage={errors.userEmail}
-                value={userSelected?.email || values.userEmail}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder="Insira o email do usuário"
               />
             </InputsWrapper>
           </Section>
@@ -190,23 +222,22 @@ const Form: React.FC<FormProps> = ({ title, userSelected }) => {
               <Input
                 width="255px"
                 labelText="CUSTO/HORA"
-                value={userSelected?.custo_hora || values.userHourRate}
-                name="userHourRate"
+                value={userSelected?.custo_hora || values.custo_hora}
+                name="custo_hora"
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="R$ ****"
               />
               <Input
                 width="255px"
-                name="userRegistrationCode"
+                name="matricula"
                 labelText="MATRÍCULA*"
+                disabled={!!isUserSelected.length}
                 hasError={
-                  !!errors.userRegistrationCode &&
-                  touched.userRegistrationCode &&
-                  !!errors.userRegistrationCode
+                  !!errors.matricula && touched.matricula && !!errors.matricula
                 }
-                errorMessage={errors.userRegistrationCode}
-                value={userSelected?.matricula || values.userRegistrationCode}
+                errorMessage={errors.matricula}
+                value={values.matricula}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Informe o número"
@@ -217,27 +248,30 @@ const Form: React.FC<FormProps> = ({ title, userSelected }) => {
               <Input
                 width="255px"
                 labelText="SETOR"
-                name="userSector"
-                value={userSelected?.setor || values.userSector}
+                name="setor"
+                value={values.setor}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Informe o setor do usuário"
               />
-              <Input
-                width="255px"
-                name="userStatus"
-                labelText="STATUS*"
-                hasError={
-                  !!errors.userStatus &&
-                  touched.userStatus &&
-                  !!errors.userStatus
-                }
-                errorMessage={errors.userStatus}
-                value={values.userStatus}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder="Selecione"
-              />
+              {/* <SelectInput
+                    options={[
+                      { label: 'Ativado', id: 1 },
+                      { label: 'Inativado', id: 2 },
+                    ]}
+                    width="255px"
+                    name="userStatus"
+                    labelText="STATUS*"
+                    hasError={
+                      !!errors.userStatus &&
+                      touched.userStatus &&
+                      !!errors.userStatus
+                    }
+                    errorMessage={errors.userStatus}
+                    value={values.userStatus}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  /> */}
             </InputsWrapper>
           </Section>
 
