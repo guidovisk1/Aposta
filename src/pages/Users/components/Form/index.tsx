@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
+import swal from 'sweetalert2';
+
 import { Formik } from 'formik';
 import { api, endpoints } from '../../../../utils';
 
@@ -83,6 +85,24 @@ const Form: React.FC<FormProps> = ({ title, userSelected }) => {
     getUserGroups();
   }, []);
 
+  const swalSuccess = (message: string) => {
+    return swal.fire({
+      title: 'Tudo certo!',
+      icon: 'success',
+      text: message || '',
+      confirmButtonColor: '#FF5427',
+    });
+  };
+
+  const swalError = (message: string) => {
+    return swal.fire({
+      title: 'Ops, algo deu errado!',
+      icon: 'error',
+      text: message || 'Erro desconhecido',
+      confirmButtonColor: '#FF5427',
+    });
+  };
+
   return (
     <Formik
       initialValues={{
@@ -100,7 +120,6 @@ const Form: React.FC<FormProps> = ({ title, userSelected }) => {
       }}
       enableReinitialize
       onSubmit={values => {
-        console.log(values);
         if (isUserSelected.length > 0) {
           return updateUser(values?.cod_usuario || '', {
             cod_grupousuarios: values?.cod_grupousuarios || '',
@@ -109,11 +128,20 @@ const Form: React.FC<FormProps> = ({ title, userSelected }) => {
             funcao: values?.funcao || '',
             custo_hora: values?.custo_hora || 0,
             setor: values?.setor || '',
-
             // TODO userStatus - waiting API implementation
-          });
+          })
+            .then(() => swalSuccess('Usuário editado com sucesso'))
+            .catch(() =>
+              swalError('Algo deu errado! Usuário não pode ser editado'),
+            );
         }
-        return createUser({ ...values, cod_usuario });
+        return createUser({ ...values, cod_usuario })
+          .then(() => swalSuccess('Usuário criado com sucesso!'))
+          .catch(() =>
+            swalError(
+              'Algo deu errado. Revise as informações e tente novamente',
+            ),
+          );
       }}
       validationSchema={validations}
     >
