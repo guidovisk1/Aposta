@@ -52,12 +52,12 @@ export const AuthProvider: React.FC = ({ children }) => {
       senha: password,
     });
 
-    const { token, readUsuarioDto } = response.data;
+    const { token, returnUsuarioDto } = response.data;
 
     localStorage.setItem('@GOIT:token', token);
-    localStorage.setItem('@GOIT:user', JSON.stringify(readUsuarioDto));
+    localStorage.setItem('@GOIT:user', JSON.stringify(returnUsuarioDto));
 
-    setData({ token, user: { ...readUsuarioDto } });
+    setData({ token, user: { ...returnUsuarioDto } });
   }, []);
 
   const signOut = useCallback(async () => {
