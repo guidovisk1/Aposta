@@ -9,4 +9,7 @@ export const endpoints = {
     CREATE: 'epis',
     UPDATE: 'epis',
   },
+  USER_GROUP: {
+    GET_ALL: 'grupousuarios',
+  },
 };
