@@ -71,4 +71,8 @@ export const Sector = styled.span`
   letter-spacing: 1.8px;
   color: #888888;
   margin-left: 24px;
+
+  :first-child {
+    margin-left: 0px;
+  }
 `;
