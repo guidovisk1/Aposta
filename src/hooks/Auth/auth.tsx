@@ -57,6 +57,8 @@ export const AuthProvider: React.FC = ({ children }) => {
     localStorage.setItem('@GOIT:token', token);
     localStorage.setItem('@GOIT:user', JSON.stringify(returnUsuarioDto));
 
+    api.defaults.headers.common.Authorization = `Bearer ${token}`;
+
     setData({ token, user: { ...returnUsuarioDto } });
   }, []);
 
