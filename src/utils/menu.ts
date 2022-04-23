@@ -20,6 +20,13 @@ const menuOptions = [
     breadCrumb: 'Equipamentos',
     id: 3,
   },
+  {
+    title: 'Cadastro de Ferramentas',
+    icon: 'toolsIcon',
+    path: '/dashboard/ferramentas',
+    breadCrumb: 'Ferramentas',
+    id: 4,
+  },
 ];
 
 export default menuOptions;

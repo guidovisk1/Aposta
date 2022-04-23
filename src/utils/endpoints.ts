@@ -15,4 +15,9 @@ export const endpoints = {
   EQUIPMENT: {
     GET_ALL: 'equipamentos',
   },
+  TOOL: {
+    GET_ALL: 'ferramentas',
+    CREATE: 'ferramentas',
+    UPDATE: 'ferramentas',
+  },
 };

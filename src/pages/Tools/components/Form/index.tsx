@@ -20,25 +20,23 @@ import {
 import Input from '../../../../components/Input';
 import Button from '../../../../components/Button';
 
-import {
-  createEquipment,
-  updateEquipment,
-} from '../../../../services/equipments.service';
+import { createTool, updateTool } from '../../../../services/tools.service';
 
 import validations from './validations';
 
-interface Equipment {
-  cod_equipamento: string;
+interface Tool {
+  codFerramenta: string;
   descricao: string;
+  imagem?: string;
 }
 
 interface FormProps {
   title: string;
-  equipmentSelected?: Equipment;
+  toolSelected?: Tool;
 }
 
-const Form: React.FC<FormProps> = ({ title, equipmentSelected }) => {
-  const isEquipmentSelected = Object.keys(equipmentSelected || {});
+const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
+  const isToolSelected = Object.keys(toolSelected || {});
   const code = v4();
 
   const swalSuccess = (message: string) => {
@@ -63,26 +61,29 @@ const Form: React.FC<FormProps> = ({ title, equipmentSelected }) => {
     <Formik
       initialValues={{
         descricao: '',
-        ...equipmentSelected,
+        ...toolSelected,
       }}
       enableReinitialize
       onSubmit={values => {
-        if (isEquipmentSelected.length) {
-          return updateEquipment(equipmentSelected?.cod_equipamento || '', {
-            ...values,
+        console.log(isToolSelected);
+        if (isToolSelected.length) {
+          return updateTool({
+            codFerramenta: toolSelected?.codFerramenta || '',
+            descricao: values.descricao,
+            imagem: values.imagem,
           })
-            .then(() => swalSuccess('Equipamento editado com sucesso!'))
+            .then(() => swalSuccess('ferramenta editada com sucesso!'))
             .catch(() =>
               swalError(
-                'Um erro ocorreu na edição do equipamento. Revise as informações e tente novamente',
+                'Um erro ocorreu na edição da ferramenta. Revise as informações e tente novamente',
               ),
             );
         }
-        return createEquipment({ ...values, cod_equipamento: code })
-          .then(() => swalSuccess('Equipamento criado com sucesso!'))
+        return createTool({ ...values, codFerramenta: code })
+          .then(() => swalSuccess('ferramenta criada com sucesso!'))
           .catch(() =>
             swalError(
-              'Um erro ocorreu na criação do equipamento. Revise as informações e tente novamente',
+              'Um erro ocorreu na criação da ferramenta. Revise as informações e tente novamente',
             ),
           );
       }}
@@ -98,7 +99,7 @@ const Form: React.FC<FormProps> = ({ title, equipmentSelected }) => {
       }) => (
         <Container>
           <Title>
-            {isEquipmentSelected.length > 0 ? 'Editar Equipamento' : title}
+            {isToolSelected.length > 0 ? 'Editar Ferramenta' : title}
           </Title>
 
           <Input
@@ -112,7 +113,7 @@ const Form: React.FC<FormProps> = ({ title, equipmentSelected }) => {
             value={values.descricao}
             onChange={handleChange}
             onBlur={handleBlur}
-            placeholder="Insira a descrição do equipamento"
+            placeholder="Insira a descrição da ferramenta"
           />
           <Input
             width="100%"
@@ -134,7 +135,7 @@ const Form: React.FC<FormProps> = ({ title, equipmentSelected }) => {
 
           <ButtonWrapper>
             <Button type="submit" full disabled={isSubmitting}>
-              {isEquipmentSelected.length > 0 ? 'Editar' : 'Adicionar'}
+              {isToolSelected.length > 0 ? 'Editar' : 'Adicionar'}
             </Button>
           </ButtonWrapper>
         </Container>
