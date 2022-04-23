@@ -44,6 +44,7 @@ const ListItem: React.FC<ListItemProps> = ({ list, onClicked }) => {
               </NameWrapper>
 
               <DownInfoWrapper>
+                <Sector>COD: {equipment.cod_equipamento}</Sector>
                 <Sector>TIPO: </Sector>
               </DownInfoWrapper>
             </EquipmentInfoWrapper>
