@@ -28,6 +28,7 @@ interface Item {
   nome: string;
   senha: string;
   setor: string;
+  status: number;
 }
 interface ListItemProps {
   list: Item[];

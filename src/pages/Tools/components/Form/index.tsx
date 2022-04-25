@@ -1,11 +1,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
 import swal from 'sweetalert2';
 
 import { Formik } from 'formik';
+import SelectInput from '../../../../components/SelectInput';
+
 import cloudIcon from '../../../../assets/icons/cloud-icon.svg';
 
 import {
@@ -28,6 +30,7 @@ interface Tool {
   codFerramenta: string;
   descricao: string;
   imagem?: string;
+  status?: number;
 }
 
 interface FormProps {
@@ -38,6 +41,8 @@ interface FormProps {
 const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
   const isToolSelected = Object.keys(toolSelected || {});
   const code = v4();
+
+  const [toolAux, setToolAux] = useState<Tool | undefined>(undefined);
 
   const swalSuccess = (message: string) => {
     return swal.fire({
@@ -57,19 +62,25 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
     });
   };
 
+  useEffect(() => {
+    setToolAux(undefined);
+    setToolAux(toolSelected || undefined);
+  }, [toolSelected]);
+
   return (
     <Formik
       initialValues={{
         descricao: '',
-        ...toolSelected,
+        status: 1,
+        ...toolAux,
       }}
       enableReinitialize
       onSubmit={values => {
-        console.log(isToolSelected);
         if (isToolSelected.length) {
           return updateTool({
             codFerramenta: toolSelected?.codFerramenta || '',
             descricao: values.descricao,
+            status: !!Number(values.status),
             imagem: values.imagem,
           })
             .then(() => swalSuccess('ferramenta editada com sucesso!'))
@@ -79,7 +90,11 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
               ),
             );
         }
-        return createTool({ ...values, codFerramenta: code })
+        return createTool({
+          ...values,
+          codFerramenta: code,
+          status: !!Number(values.status),
+        })
           .then(() => swalSuccess('ferramenta criada com sucesso!'))
           .catch(() =>
             swalError(
@@ -123,6 +138,19 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
             value={code}
           />
 
+          <SelectInput
+            options={[
+              { label: 'Ativado', id: 1 },
+              { label: 'Inativado', id: 0 },
+            ]}
+            consideredValue="id"
+            width="100%"
+            name="status"
+            labelText="STATUS*"
+            value={values.status}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
           <ContainerInputFile htmlFor="input-file">
             <img src={cloudIcon} alt="cloud icon" />
             <SendImageText>Enviar Imagem</SendImageText>

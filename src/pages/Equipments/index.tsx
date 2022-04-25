@@ -13,6 +13,7 @@ import ImagePreview from '../../components/ImagePreview';
 interface Equipament {
   cod_equipamento: string;
   descricao: string;
+  status: number;
 }
 
 const Equipments: React.FC = () => {
@@ -28,12 +29,15 @@ const Equipments: React.FC = () => {
     {} as Equipament,
   );
 
-  const [isPreviewOpen, setIsPreviewOpen] = useState(true);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   useEffect(() => {
     async function fetchEquips() {
       const { data } = await getEquipments();
-      setEquipments(data);
+      const dataMapped = data.map((equipment: Equipament) => {
+        return { ...equipment, status: equipment.status ? 1 : 0 };
+      });
+      setEquipments(dataMapped);
     }
     fetchEquips();
   }, []);
