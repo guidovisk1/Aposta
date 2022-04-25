@@ -8,6 +8,8 @@ import Form from './components/Form';
 
 import ListItem from './components/ListItem';
 
+import ImagePreview from '../../components/ImagePreview';
+
 interface Equipament {
   cod_equipamento: string;
   descricao: string;
@@ -25,6 +27,8 @@ const Equipments: React.FC = () => {
   const [selectedEquipment, setSelectedEquipment] = useState<Equipament>(
     {} as Equipament,
   );
+
+  const [isPreviewOpen, setIsPreviewOpen] = useState(true);
 
   useEffect(() => {
     async function fetchEquips() {
@@ -54,22 +58,32 @@ const Equipments: React.FC = () => {
   }
 
   return (
-    <Container className="page-container">
-      <SideInfoPanel
-        title="Equipa..."
-        onSearch={searchValue => onSearch(searchValue)}
-        openForm={() => openForm()}
-      >
-        <ListItem
-          list={searchedEquipment.length ? searchedEquipment : equipments}
-          onClicked={equipment => handleUserSelection(equipment)}
+    <>
+      {isPreviewOpen && (
+        <ImagePreview
+          name="Mona Liza"
+          code="DAVINCI"
+          imgUrl="https://s1.static.brasilescola.uol.com.br/be/imagens/artes/monalisa1000.jpg"
+          onClose={() => console.log('On Close')}
         />
-      </SideInfoPanel>
-      <Form
-        title="Adicionar um Equipamento"
-        equipmentSelected={selectedEquipment}
-      />
-    </Container>
+      )}
+      <Container className="page-container">
+        <SideInfoPanel
+          title="Equipa..."
+          onSearch={searchValue => onSearch(searchValue)}
+          openForm={() => openForm()}
+        >
+          <ListItem
+            list={searchedEquipment.length ? searchedEquipment : equipments}
+            onClicked={equipment => handleUserSelection(equipment)}
+          />
+        </SideInfoPanel>
+        <Form
+          title="Adicionar um Equipamento"
+          equipmentSelected={selectedEquipment}
+        />
+      </Container>
+    </>
   );
 };
 
