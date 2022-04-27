@@ -37,6 +37,7 @@ interface User {
   nome: string;
   senha: string;
   setor: string;
+  status: number;
 }
 
 interface FormProps {
@@ -116,6 +117,7 @@ const Form: React.FC<FormProps> = ({ title, userSelected }) => {
         nome: '',
         senha: '',
         setor: '',
+        status: 1,
         ...selectedUserAux,
       }}
       enableReinitialize
@@ -128,14 +130,18 @@ const Form: React.FC<FormProps> = ({ title, userSelected }) => {
             funcao: values?.funcao || '',
             custo_hora: values?.custo_hora || 0,
             setor: values?.setor || '',
-            // TODO userStatus - waiting API implementation
+            status: !!Number(values.status),
           })
             .then(() => swalSuccess('Usuário editado com sucesso'))
             .catch(() =>
               swalError('Algo deu errado! Usuário não pode ser editado'),
             );
         }
-        return createUser({ ...values, cod_usuario })
+        return createUser({
+          ...values,
+          cod_usuario,
+          status: !!Number(values.status),
+        })
           .then(() => swalSuccess('Usuário criado com sucesso!'))
           .catch(() =>
             swalError(
@@ -282,24 +288,21 @@ const Form: React.FC<FormProps> = ({ title, userSelected }) => {
                 onBlur={handleBlur}
                 placeholder="Informe o setor do usuário"
               />
-              {/* <SelectInput
-                    options={[
-                      { label: 'Ativado', id: 1 },
-                      { label: 'Inativado', id: 2 },
-                    ]}
-                    width="255px"
-                    name="userStatus"
-                    labelText="STATUS*"
-                    hasError={
-                      !!errors.userStatus &&
-                      touched.userStatus &&
-                      !!errors.userStatus
-                    }
-                    errorMessage={errors.userStatus}
-                    value={values.userStatus}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  /> */}
+              <SelectInput
+                options={[
+                  { label: 'Ativado', id: 1 },
+                  { label: 'Inativado', id: 0 },
+                ]}
+                consideredValue="id"
+                width="255px"
+                name="status"
+                labelText="STATUS*"
+                hasError={!!errors.status && touched.status && !!errors.status}
+                errorMessage={errors.status}
+                value={values.status}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
             </InputsWrapper>
           </Section>
 

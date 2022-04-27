@@ -1,11 +1,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
 import swal from 'sweetalert2';
 
 import { Formik } from 'formik';
+import SelectInput from '../../../../components/SelectInput';
+
 import cloudIcon from '../../../../assets/icons/cloud-icon.svg';
 
 import {
@@ -28,6 +30,7 @@ interface Tool {
   codFerramenta: string;
   descricao: string;
   imagem?: string;
+  status?: number;
 }
 
 interface FormProps {
@@ -38,6 +41,8 @@ interface FormProps {
 const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
   const isToolSelected = Object.keys(toolSelected || {});
   const code = v4();
+
+  const [toolAux, setToolAux] = useState<Tool | undefined>(undefined);
 
   const swalSuccess = (message: string) => {
     return swal.fire({
@@ -57,21 +62,31 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
     });
   };
 
+  useEffect(() => {
+    setToolAux(undefined);
+    setToolAux(toolSelected || undefined);
+  }, [toolSelected]);
+
   return (
     <Formik
       initialValues={{
         descricao: '',
-        ...toolSelected,
+        status: 1,
+        imagem: '',
+        ...toolAux,
       }}
       enableReinitialize
       onSubmit={values => {
-        console.log(isToolSelected);
+        const file = (values.imagem as any)[0];
+        const formData = new FormData();
+
+        formData.append('imagem', file);
+        formData.append('descricao', values.descricao);
+        formData.append('status', String(values.status));
+        formData.append('codFerramenta', toolAux?.codFerramenta || '');
+
         if (isToolSelected.length) {
-          return updateTool({
-            codFerramenta: toolSelected?.codFerramenta || '',
-            descricao: values.descricao,
-            imagem: values.imagem,
-          })
+          return updateTool({ ...formData })
             .then(() => swalSuccess('ferramenta editada com sucesso!'))
             .catch(() =>
               swalError(
@@ -79,7 +94,9 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
               ),
             );
         }
-        return createTool({ ...values, codFerramenta: code })
+
+        formData.append('codFerramenta', code);
+        return createTool({ ...formData })
           .then(() => swalSuccess('ferramenta criada com sucesso!'))
           .catch(() =>
             swalError(
@@ -96,6 +113,7 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
         handleChange,
         handleBlur,
         isSubmitting,
+        setFieldValue,
       }) => (
         <Container>
           <Title>
@@ -123,11 +141,28 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
             value={code}
           />
 
+          <SelectInput
+            options={[
+              { label: 'Ativado', id: 1 },
+              { label: 'Inativado', id: 0 },
+            ]}
+            consideredValue="id"
+            width="100%"
+            name="status"
+            labelText="STATUS*"
+            value={values.status}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
           <ContainerInputFile htmlFor="input-file">
             <img src={cloudIcon} alt="cloud icon" />
             <SendImageText>Enviar Imagem</SendImageText>
             <UploadInput
-              onChange={e => console.log(e.target.value)}
+              accept="image/*"
+              onChange={e => {
+                setFieldValue('imagem', e.currentTarget.files);
+              }}
+              name="imagem"
               id="input-file"
               type="file"
             />

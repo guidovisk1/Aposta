@@ -17,6 +17,7 @@ import {
 interface Item {
   cod_equipamento: string;
   descricao: string;
+  status: number;
 }
 interface ListItemProps {
   list: Item[];

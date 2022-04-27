@@ -19,6 +19,7 @@ interface User {
   nome: string;
   senha: string;
   setor: string;
+  status: number;
 }
 
 const Users: React.FC = () => {
@@ -30,7 +31,10 @@ const Users: React.FC = () => {
   useEffect(() => {
     const getAllUsers = async () => {
       const { data } = await getUsers();
-      setUsers(data);
+      const dataMapped = data.map((user: User) => {
+        return { ...user, status: user.status ? 1 : 0 };
+      });
+      setUsers(dataMapped);
     };
     getAllUsers();
   }, []);

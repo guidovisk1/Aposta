@@ -8,9 +8,12 @@ import Form from './components/Form';
 
 import ListItem from './components/ListItem';
 
+import ImagePreview from '../../components/ImagePreview';
+
 interface Equipament {
   cod_equipamento: string;
   descricao: string;
+  status: number;
 }
 
 const Equipments: React.FC = () => {
@@ -26,10 +29,15 @@ const Equipments: React.FC = () => {
     {} as Equipament,
   );
 
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
   useEffect(() => {
     async function fetchEquips() {
       const { data } = await getEquipments();
-      setEquipments(data);
+      const dataMapped = data.map((equipment: Equipament) => {
+        return { ...equipment, status: equipment.status ? 1 : 0 };
+      });
+      setEquipments(dataMapped);
     }
     fetchEquips();
   }, []);
@@ -54,22 +62,32 @@ const Equipments: React.FC = () => {
   }
 
   return (
-    <Container className="page-container">
-      <SideInfoPanel
-        title="Equipa..."
-        onSearch={searchValue => onSearch(searchValue)}
-        openForm={() => openForm()}
-      >
-        <ListItem
-          list={searchedEquipment.length ? searchedEquipment : equipments}
-          onClicked={equipment => handleUserSelection(equipment)}
+    <>
+      {isPreviewOpen && (
+        <ImagePreview
+          name="Mona Liza"
+          code="DAVINCI"
+          imgUrl="https://s1.static.brasilescola.uol.com.br/be/imagens/artes/monalisa1000.jpg"
+          onClose={() => console.log('On Close')}
         />
-      </SideInfoPanel>
-      <Form
-        title="Adicionar um Equipamento"
-        equipmentSelected={selectedEquipment}
-      />
-    </Container>
+      )}
+      <Container className="page-container">
+        <SideInfoPanel
+          title="Equipa..."
+          onSearch={searchValue => onSearch(searchValue)}
+          openForm={() => openForm()}
+        >
+          <ListItem
+            list={searchedEquipment.length ? searchedEquipment : equipments}
+            onClicked={equipment => handleUserSelection(equipment)}
+          />
+        </SideInfoPanel>
+        <Form
+          title="Adicionar um Equipamento"
+          equipmentSelected={selectedEquipment}
+        />
+      </Container>
+    </>
   );
 };
 

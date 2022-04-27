@@ -6,6 +6,7 @@ import { v4 } from 'uuid';
 import swal from 'sweetalert2';
 
 import { Formik } from 'formik';
+import SelectInput from '../../../../components/SelectInput';
 import cloudIcon from '../../../../assets/icons/cloud-icon.svg';
 
 import {
@@ -30,6 +31,7 @@ import validations from './validations';
 interface Equipment {
   cod_equipamento: string;
   descricao: string;
+  status: number;
 }
 
 interface FormProps {
@@ -63,6 +65,7 @@ const Form: React.FC<FormProps> = ({ title, equipmentSelected }) => {
     <Formik
       initialValues={{
         descricao: '',
+        imagem: '',
         ...equipmentSelected,
       }}
       enableReinitialize
@@ -122,11 +125,28 @@ const Form: React.FC<FormProps> = ({ title, equipmentSelected }) => {
             value={code}
           />
 
+          <SelectInput
+            options={[
+              { label: 'Ativado', id: 1 },
+              { label: 'Inativado', id: 0 },
+            ]}
+            consideredValue="id"
+            width="100%"
+            name="status"
+            labelText="STATUS*"
+            hasError={!!errors.status && touched.status && !!errors.status}
+            errorMessage={errors.status}
+            value={values.status}
+            onChange={handleChange}
+            onBlur={handleBlur}
+          />
+
           <ContainerInputFile htmlFor="input-file">
             <img src={cloudIcon} alt="cloud icon" />
             <SendImageText>Enviar Imagem</SendImageText>
             <UploadInput
-              onChange={e => console.log(e.target.value)}
+              value={values.imagem}
+              onChange={handleChange}
               id="input-file"
               type="file"
             />

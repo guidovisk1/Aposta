@@ -12,6 +12,7 @@ interface User {
   nome: string;
   senha: string;
   setor: string;
+  status: boolean;
 }
 
 export const getUsers = () => {
@@ -28,8 +29,8 @@ export const createUser = ({
   nome,
   senha,
   setor,
-}: // TODO userStatus - waiting API implementation
-User) => {
+  status,
+}: User) => {
   return api.post(endpoints.USERS.GET_ALL, {
     cod_usuario,
     cod_grupousuarios,
@@ -40,6 +41,7 @@ User) => {
     custo_hora,
     setor,
     matricula,
+    status,
   });
 };
 
@@ -53,8 +55,8 @@ export const updateUser = (
     funcao,
     custo_hora,
     setor,
-  }: // TODO userStatus - waiting API implementation
-  Partial<User>,
+    status,
+  }: Partial<User>,
 ) => {
   return api.put(`${endpoints.USERS.GET_ALL}/${id}`, {
     cod_usuario,
@@ -64,5 +66,6 @@ export const updateUser = (
     funcao,
     custo_hora,
     setor,
+    status,
   });
 };

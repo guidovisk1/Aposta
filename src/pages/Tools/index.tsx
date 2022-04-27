@@ -13,13 +13,11 @@ interface Tool {
   codFerramenta: string;
   descricao: string;
   imagem?: string;
+  status?: number;
 }
 
 const Tools: React.FC = () => {
-  const [tools, setTools] = useState<Tool[]>([
-    { codFerramenta: 'ijeur', descricao: 'Macbook Pro' },
-    { codFerramenta: 'jdjdf', descricao: 'Chave de Fenda' },
-  ]);
+  const [tools, setTools] = useState<Tool[]>([] as Tool[]);
 
   const [searchedTool, setSearchedTool] = useState<Tool[]>([] as Tool[]);
 
@@ -28,7 +26,10 @@ const Tools: React.FC = () => {
   useEffect(() => {
     async function getAllTool() {
       const { data } = await getTools();
-      setTools(data);
+      const toolsMapped = data.map((tool: Tool) => {
+        return { ...tool, status: tool.status ? 1 : 0 };
+      });
+      setTools(toolsMapped);
     }
 
     getAllTool();

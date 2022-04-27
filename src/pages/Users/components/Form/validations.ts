@@ -10,5 +10,4 @@ export default yup.object().shape({
   cod_grupousuarios: yup.string().required('O campo Grupo é obrigatório'),
   nome: yup.string().required('O campo Nome é obrigatório'),
   matricula: yup.string().required('O campo Matrícula é obrigatório'),
-  // userStatus: yup.string().required('O campo Status é obrigatório'),
 });
