@@ -27,6 +27,13 @@ const menuOptions = [
     breadCrumb: 'Ferramentas',
     id: 4,
   },
+  {
+    title: 'Cadastro de EPIs',
+    icon: 'helmetIcon',
+    path: '/dashboard/epis',
+    breadCrumb: 'Equipamento de Proteção Individual (EPI)',
+    id: 5,
+  },
 ];
 
 export default menuOptions;
