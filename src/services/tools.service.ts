@@ -1,11 +1,8 @@
 /* eslint-disable camelcase */
 import { api, endpoints } from '../utils';
 
-interface Tool {
-  codFerramenta: string;
-  descricao: string;
-  imagem?: string;
-  status?: boolean;
+interface Tool extends FormData {
+  [key: string]: any;
 }
 
 export const getTools = () => {
@@ -18,11 +15,12 @@ export const createTool = ({
   imagem,
   status,
 }: Tool) => {
-  return api.post(endpoints.TOOL.GET_ALL, {
-    codFerramenta,
-    descricao,
-    imagem,
-    status,
+  const data = { codFerramenta, descricao, imagem, status };
+  return api.post(endpoints.TOOL.GET_ALL, data, {
+    responseType: 'arraybuffer',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
 };
 

@@ -72,17 +72,21 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
       initialValues={{
         descricao: '',
         status: 1,
+        imagem: '',
         ...toolAux,
       }}
       enableReinitialize
       onSubmit={values => {
+        const file = (values.imagem as any)[0];
+        const formData = new FormData();
+
+        formData.append('imagem', file);
+        formData.append('descricao', values.descricao);
+        formData.append('status', String(values.status));
+        formData.append('codFerramenta', toolAux?.codFerramenta || '');
+
         if (isToolSelected.length) {
-          return updateTool({
-            codFerramenta: toolSelected?.codFerramenta || '',
-            descricao: values.descricao,
-            status: !!Number(values.status),
-            imagem: values.imagem,
-          })
+          return updateTool({ ...formData })
             .then(() => swalSuccess('ferramenta editada com sucesso!'))
             .catch(() =>
               swalError(
@@ -90,11 +94,9 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
               ),
             );
         }
-        return createTool({
-          ...values,
-          codFerramenta: code,
-          status: !!Number(values.status),
-        })
+
+        formData.append('codFerramenta', code);
+        return createTool({ ...formData })
           .then(() => swalSuccess('ferramenta criada com sucesso!'))
           .catch(() =>
             swalError(
@@ -111,6 +113,7 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
         handleChange,
         handleBlur,
         isSubmitting,
+        setFieldValue,
       }) => (
         <Container>
           <Title>
@@ -155,7 +158,11 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
             <img src={cloudIcon} alt="cloud icon" />
             <SendImageText>Enviar Imagem</SendImageText>
             <UploadInput
-              onChange={e => console.log(e.target.value)}
+              accept="image/*"
+              onChange={e => {
+                setFieldValue('imagem', e.currentTarget.files);
+              }}
+              name="imagem"
               id="input-file"
               type="file"
             />
