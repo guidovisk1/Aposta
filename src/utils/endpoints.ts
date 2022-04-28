@@ -20,4 +20,12 @@ export const endpoints = {
     CREATE: 'ferramentas',
     UPDATE: 'ferramentas',
   },
+  TRAININGS: {
+    GET_ALL: 'treinamentos',
+    CREATE: 'treinamentos',
+    UPDATE: 'treinamentos',
+  },
+
+  // The reason we have this kind of duplication is because I want to prevent too much effort
+  // if for some reason those endpoints changes during the development.
 };
