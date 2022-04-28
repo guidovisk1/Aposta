@@ -8,6 +8,7 @@ import UsersGroup from '../pages/UsersGroup';
 import Equipments from '../pages/Equipments';
 import Tools from '../pages/Tools';
 import EPIs from '../pages/EPIs';
+import Trainings from '../pages/Trainings';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -27,6 +28,12 @@ const AppRoutes: React.FC = () => {
       />
       <Route isPrivate exact path="/dashboard/ferramentas" component={Tools} />
       <Route isPrivate exact path="/dashboard/epis" component={EPIs} />
+      <Route
+        isPrivate
+        exact
+        path="/dashboard/treinamentos"
+        component={Trainings}
+      />
       <RouterDom path="*" render={() => <Redirect to="/" />} />
     </Switch>
   );

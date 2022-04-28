@@ -34,6 +34,13 @@ const menuOptions = [
     breadCrumb: 'Equipamento de Proteção Individual (EPI)',
     id: 5,
   },
+  {
+    title: 'Cadastro de Treinamentos',
+    icon: 'trainingIcon',
+    path: '/dashboard/treinamentos',
+    breadCrumb: 'Treinamentos',
+    id: 6,
+  },
 ];
 
 export default menuOptions;
