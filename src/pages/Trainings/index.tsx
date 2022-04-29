@@ -15,7 +15,7 @@ interface Training {
   status?: number;
 }
 
-const EPIs: React.FC = () => {
+const Trainings: React.FC = () => {
   const [trainings, setTrainings] = useState<Training[]>([] as Training[]);
 
   const [searchedTraining, setSearchedTraining] = useState<Training[]>(
@@ -59,7 +59,7 @@ const EPIs: React.FC = () => {
   return (
     <Container className="page-container">
       <SideInfoPanel
-        title="EPIs"
+        title="Treinamentos"
         onSearch={searched => onSearch(searched)}
         openForm={() => openForm()}
       >
@@ -77,4 +77,4 @@ const EPIs: React.FC = () => {
   );
 };
 
-export default EPIs;
+export default Trainings;

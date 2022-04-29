@@ -1,6 +1,6 @@
 import React from 'react';
 
-import helmetIcon from '../../../../assets/icons/helmet-icon-2.svg';
+import trainingIcon from '../../../../assets/icons/trainning-icon-2.svg';
 
 import {
   Container,
@@ -17,7 +17,6 @@ import {
 interface Item {
   cod_treinamento: string;
   descricao: string;
-
   status?: number;
 }
 interface ListItemProps {
@@ -36,7 +35,7 @@ const ListItem: React.FC<ListItemProps> = ({ list, onClicked }) => {
           >
             <LogoWrapper>
               <RoundedOutline>
-                <img src={helmetIcon} />
+                <img src={trainingIcon} />
               </RoundedOutline>
             </LogoWrapper>
 
