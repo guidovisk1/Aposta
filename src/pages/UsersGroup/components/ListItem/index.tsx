@@ -1,6 +1,6 @@
 import React from 'react';
 
-import trainingIcon from '../../../../assets/icons/trainning-icon-2.svg';
+import userIcon from '../../../../assets/icons/user-orange-icon.svg';
 
 import {
   Container,
@@ -9,45 +9,45 @@ import {
   LogoWrapper,
   NameWrapper,
   Name,
-  UserInfoWrapper as EquipmentInfoWrapper,
+  UserInfoWrapper,
   DownInfoWrapper,
   Sector,
 } from './styles';
 
 interface Item {
-  cod_treinamento: string;
+  cod_grupoUsuarios: string;
   descricao: string;
   status?: number;
 }
 interface ListItemProps {
   list: Item[];
-  onClicked: (epi: Item) => void;
+  onClicked: (userGroup: Item) => void;
 }
 
 const ListItem: React.FC<ListItemProps> = ({ list, onClicked }) => {
   return (
     <Container>
       {list.length &&
-        list.map(treinamento => (
+        list.map(userGroup => (
           <Item
-            key={treinamento.cod_treinamento}
-            onClick={() => onClicked(treinamento)}
+            key={userGroup.cod_grupoUsuarios}
+            onClick={() => onClicked(userGroup)}
           >
             <LogoWrapper>
               <RoundedOutline>
-                <img src={trainingIcon} />
+                <img src={userIcon} />
               </RoundedOutline>
             </LogoWrapper>
 
-            <EquipmentInfoWrapper>
+            <UserInfoWrapper>
               <NameWrapper>
-                <Name>{treinamento.descricao}</Name>
+                <Name>{userGroup.descricao}</Name>
               </NameWrapper>
 
               <DownInfoWrapper>
-                <Sector>COD: {treinamento.cod_treinamento}</Sector>
+                <Sector>COD: {userGroup.cod_grupoUsuarios}</Sector>
               </DownInfoWrapper>
-            </EquipmentInfoWrapper>
+            </UserInfoWrapper>
           </Item>
         ))}
     </Container>
