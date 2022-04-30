@@ -41,6 +41,13 @@ const menuOptions = [
     breadCrumb: 'Treinamentos',
     id: 6,
   },
+  {
+    title: 'Cadastro de Operações',
+    icon: 'operationsIcon',
+    path: '/dashboard/operacoes',
+    breadCrumb: 'Operações',
+    id: 7,
+  },
 ];
 
 export default menuOptions;
