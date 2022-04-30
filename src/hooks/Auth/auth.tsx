@@ -66,6 +66,10 @@ export const AuthProvider: React.FC = ({ children }) => {
     api.defaults.headers.common.Authorization = `Bearer ${token}`;
 
     setData({ token, user: { ...returnUsuarioDto } });
+
+    // hack to prevent token to not be used in the first request
+    // eslint-disable-next-line no-restricted-globals
+    location.reload();
   }, []);
 
   const signOut = useCallback(async () => {
