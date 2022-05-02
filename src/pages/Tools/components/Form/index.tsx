@@ -78,6 +78,7 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
       enableReinitialize
       onSubmit={values => {
         const file = (values.imagem as any)[0];
+
         const formData = new FormData();
 
         formData.append('imagem', file);
