@@ -32,14 +32,16 @@ interface Equipment {
   cod_equipamento: string;
   descricao: string;
   status: number;
+  imagem?: string;
 }
 
 interface FormProps {
   title: string;
   equipmentSelected?: Equipment;
+  handleImg: (imgString: string) => void;
 }
 
-const Form: React.FC<FormProps> = ({ title, equipmentSelected }) => {
+const Form: React.FC<FormProps> = ({ title, equipmentSelected, handleImg }) => {
   const isEquipmentSelected = Object.keys(equipmentSelected || {});
   const code = v4();
 
@@ -70,10 +72,22 @@ const Form: React.FC<FormProps> = ({ title, equipmentSelected }) => {
       }}
       enableReinitialize
       onSubmit={values => {
+        const formData = new FormData();
+
+        const file = (values.imagem as any)[0];
+
+        formData.append('descricao', values.descricao);
+        formData.append('cod_equipamento', code);
+
+        if (file) {
+          formData.append('imagem', file);
+        }
+
         if (isEquipmentSelected.length) {
-          return updateEquipment(equipmentSelected?.cod_equipamento || '', {
-            ...values,
-          })
+          return updateEquipment(
+            equipmentSelected?.cod_equipamento || '',
+            formData,
+          )
             .then(() => swalSuccess('Equipamento editado com sucesso!'))
             .catch(() =>
               swalError(
@@ -81,7 +95,8 @@ const Form: React.FC<FormProps> = ({ title, equipmentSelected }) => {
               ),
             );
         }
-        return createEquipment({ ...values, cod_equipamento: code })
+
+        return createEquipment(formData)
           .then(() => swalSuccess('Equipamento criado com sucesso!'))
           .catch(() =>
             swalError(
@@ -98,6 +113,7 @@ const Form: React.FC<FormProps> = ({ title, equipmentSelected }) => {
         handleChange,
         handleBlur,
         isSubmitting,
+        setFieldValue,
       }) => (
         <Container>
           <Title>
@@ -145,12 +161,27 @@ const Form: React.FC<FormProps> = ({ title, equipmentSelected }) => {
             <img src={cloudIcon} alt="cloud icon" />
             <SendImageText>Enviar Imagem</SendImageText>
             <UploadInput
-              value={values.imagem}
-              onChange={handleChange}
+              accept="image/*"
+              onChange={e => {
+                setFieldValue('imagem', e.currentTarget.files);
+              }}
+              name="imagem"
               id="input-file"
               type="file"
             />
           </ContainerInputFile>
+
+          {equipmentSelected?.imagem && (
+            <a
+              onClick={e => {
+                e.preventDefault();
+                handleImg(equipmentSelected.imagem || '');
+              }}
+              href=""
+            >
+              Visualizar imagem
+            </a>
+          )}
 
           <ButtonWrapper>
             <Button type="submit" full disabled={isSubmitting}>
