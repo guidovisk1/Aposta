@@ -47,6 +47,14 @@ export const TitleSectionText = styled.span`
   color: #ff5427;
 `;
 
+export const Label = styled.span`
+  text-align: left;
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 1.8px;
+  color: #888888;
+`;
+
 export const InputsWrapper = styled.div<InputsWrapperProps>`
   display: flex;
   justify-content: space-between;
