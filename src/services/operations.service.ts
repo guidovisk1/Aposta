@@ -9,7 +9,11 @@ export const getOperations = () => {
 };
 
 export const createOperation = (formData: Operation) => {
-  return api.post(endpoints.OPERATIONS.GET_ALL, formData);
+  return api.post(endpoints.OPERATIONS.GET_ALL, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 };
 
 export const updateOperation = (cod_operacao: string, formData: Operation) => {

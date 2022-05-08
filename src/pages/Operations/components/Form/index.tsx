@@ -52,6 +52,9 @@ interface Operation {
   qrcodeParametro: string;
   medicao: boolean;
   medicaoParametro: string;
+  ferramentas?: any;
+  epis?: any;
+  treinamentos?: any;
   status: number;
 }
 
@@ -67,6 +70,9 @@ const Form: React.FC<FormProps> = ({ title, operationSelected }) => {
   const [tools, setTools] = useState<any[]>([]);
   const [trainings, setTrainings] = useState<any[]>([]);
   const [epis, setEpis] = useState<any[]>([]);
+  const [imageName, setImageName] = useState('');
+  const [pdfName, setPdfName] = useState('');
+  const [videoName, setVideoName] = useState('');
 
   const [operationAux, setOperationAux] = useState<Operation | undefined>(
     undefined,
@@ -110,26 +116,74 @@ const Form: React.FC<FormProps> = ({ title, operationSelected }) => {
       initialValues={{
         descricao: '',
         status: 1,
-        epis: [],
-        ferramentas: [],
-        treinamentos: [],
         imagem: '',
         pdf: '',
         video: '',
-        valor: '',
+        instrucao: '',
+        tipoMedicao: 'OCR',
+        medicaoParametro: '',
         ...operationAux,
+        ferramentas:
+          operationAux?.ferramentas?.map((ferramenta: any) => {
+            return ferramenta.cod_ferramenta;
+          }) || [],
+        epis:
+          operationAux?.epis?.map((epi: any) => {
+            return epi.cod_epi;
+          }) || [],
+        treinamentos:
+          operationAux?.treinamentos?.map((treinamento: any) => {
+            return treinamento.cod_treinamento;
+          }) || [],
       }}
       enableReinitialize
       onSubmit={values => {
-        const pdf = (values.pdf as any).files[0];
-        const fbx = (values.fbx as any).files[0];
-        const video = (values.video as any).files[0];
+        const pdf = (values?.pdf as any)[0];
+        const imagem = (values?.imagem as any)[0];
+
+        let toolsString = '';
+        values.ferramentas.forEach((tool: any) => {
+          toolsString += `${tool}/`;
+        });
+
+        let trainingsString = '';
+        values.treinamentos.forEach((training: any) => {
+          trainingsString += `${training}/`;
+        });
+
+        let episString = '';
+        values.epis.forEach((epi: any) => {
+          episString += `${epi}/`;
+        });
 
         const formData = new FormData();
 
-        if (pdf) formData.append('pdf', pdf);
-        if (fbx) formData.append('fbx', fbx);
-        if (video) formData.append('video', video);
+        if (pdf) formData.append('pdfFile', pdf);
+        if (imagem) formData.append('imagemFile', imagem);
+
+        if (values.tipoMedicao === 'OCR') {
+          formData.append('ocr', 'true');
+          formData.append('ocrParametro', String(values.medicaoParametro));
+        } else if (values.tipoMedicao === 'QRCODE') {
+          formData.append('qrcode', 'true');
+          formData.append('qrcodeParametro', String(values.medicaoParametro));
+        } else if (values.tipoMedicao === 'MEDICAO') {
+          formData.append('medicao', 'true');
+          formData.append('medicaoParametro', String(values.medicaoParametro));
+        }
+
+        formData.append('descricao', values.descricao);
+        // formData.append('status', String(values.status));
+        formData.append('instrucao', values.instrucao);
+        formData.append(
+          'cod_operacao',
+          values.cod_operacao ? values.cod_operacao : code,
+        );
+
+        formData.append('video', values.video || '');
+        formData.append('ferramentasIds', toolsString.replace(/\/$/, ''));
+        formData.append('treinamentosIds', trainingsString.replace(/\/$/, ''));
+        formData.append('episIds', episString.replace(/\/$/, ''));
 
         if (isOperationSelected.length) {
           return updateOperation(values.cod_operacao || '', formData)
@@ -232,7 +286,9 @@ const Form: React.FC<FormProps> = ({ title, operationSelected }) => {
 
           <TextArea
             labelText="Instruções"
-            value=""
+            value={values.instrucao}
+            name="instrucao"
+            onChange={handleChange}
             placeholder="Insira as intruções aqui..."
           />
 
@@ -284,25 +340,55 @@ const Form: React.FC<FormProps> = ({ title, operationSelected }) => {
 
           <InputsWrapper>
             <InputFile
+              name="imagem"
               placeholder="Enviar"
               labelText="IMAGEM"
               iconName="image"
-              value=""
+              id="imagem-input"
+              accept="image/*"
+              fileName={imageName}
+              onChange={e => {
+                if (e.currentTarget.files![0].size > 5519364) {
+                  return swalError(
+                    'A imagem não pode ser maior que 5MB e deve ser do tipo imagem',
+                  );
+                }
+                if (!e.currentTarget.files![0].type.startsWith('image')) {
+                  return swalError('O arquivo deve ser do tipo imagem');
+                }
+                setFieldValue('imagem', e.currentTarget.files);
+                return setImageName(e.currentTarget.files![0].name);
+              }}
             />
             <InputFile
               placeholder="Enviar"
               labelText="PDF"
               iconName="file"
-              value=""
-            />
-            <InputFile
-              placeholder="Enviar"
-              name="video"
-              labelText="VÍDEO"
-              iconName="file"
+              accept="application/pdf"
+              fileName={pdfName}
+              name="pdf"
+              id="pdf-input"
               onChange={e => {
-                setFieldValue('imagem', e.currentTarget.files);
+                if (e.currentTarget.files![0].size > 15519364) {
+                  return swalError('O PDF não pode ser maior que 15MB');
+                }
+                if (
+                  !e.currentTarget.files![0].type.startsWith('application/pdf')
+                ) {
+                  return swalError('O arquivo deve ser do tipo PDF');
+                }
+                setFieldValue('pdf', e.currentTarget.files);
+                return setPdfName(e.currentTarget?.files![0].name);
               }}
+            />
+            <Input
+              name="video"
+              labelText="VIDEO"
+              width="160px"
+              value={values.video}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              placeholder="Insira a URL do video"
             />
           </InputsWrapper>
 
@@ -313,19 +399,18 @@ const Form: React.FC<FormProps> = ({ title, operationSelected }) => {
                 { label: 'QRCODE', id: 1 },
                 { label: 'MEDIÇÃO', id: 2 },
               ]}
-              consideredValue="id"
               width="255px"
-              name="status"
+              name="tipoMedicao"
               labelText="(OCR, QRCODE OU MEDIÇÃO)"
-              value={values.status}
+              value={values.tipoMedicao}
               onChange={handleChange}
               onBlur={handleBlur}
             />
             <Input
-              name="valor"
+              name="medicaoParametro"
               width="250px"
               labelText="VALOR"
-              value={values.valor}
+              value={values.medicaoParametro}
               onChange={handleChange}
               onBlur={handleBlur}
               placeholder="OCR, qrcode ou medida"

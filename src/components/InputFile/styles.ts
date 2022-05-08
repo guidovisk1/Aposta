@@ -10,6 +10,10 @@ export const Container = styled.label`
     position: absolute;
     right: 0;
   }
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 `;
 
 export const LabelText = styled.div`

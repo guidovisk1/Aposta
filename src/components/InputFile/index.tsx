@@ -16,6 +16,9 @@ interface InputFileProps extends React.InputHTMLAttributes<HTMLInputElement> {
   labelText?: string;
   placeholder?: string;
   fileName?: string;
+  htmlFor?: string;
+  id: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputFile: React.FC<InputFileProps> = ({
@@ -23,20 +26,35 @@ const InputFile: React.FC<InputFileProps> = ({
   labelText,
   placeholder,
   fileName,
+  id,
+  htmlFor = id,
+
+  onChange,
 }) => {
   return (
-    <Container htmlFor="input-file">
-      {labelText && <LabelText>{labelText}</LabelText>}
+    <>
+      <Input
+        onChange={e => {
+          onChange(e);
+        }}
+        id={id}
+        placeholder={placeholder}
+        type="file"
+      />
 
-      <IconInputWrapper>
-        <Input id="input-file" placeholder={placeholder} type="file" />
+      <Container htmlFor={htmlFor}>
+        {labelText && <LabelText>{labelText}</LabelText>}
 
-        <TextWrapper htmlFor="input-file">
-          <span>{fileName || 'Enviar...'}</span>
-        </TextWrapper>
-        <img src={iconName === 'file' ? fileIcon : imageIcon} alt="icon" />
-      </IconInputWrapper>
-    </Container>
+        <IconInputWrapper>
+          <TextWrapper htmlFor={htmlFor}>
+            <div className="file-name">
+              <span>{fileName || 'Enviar...'}</span>
+            </div>
+          </TextWrapper>
+          <img src={iconName === 'file' ? fileIcon : imageIcon} alt="icon" />
+        </IconInputWrapper>
+      </Container>
+    </>
   );
 };
 
