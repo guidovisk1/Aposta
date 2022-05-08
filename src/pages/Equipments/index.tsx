@@ -14,6 +14,7 @@ interface Equipament {
   cod_equipamento: string;
   descricao: string;
   status: number;
+  imagem?: string;
 }
 
 const Equipments: React.FC = () => {
@@ -29,11 +30,20 @@ const Equipments: React.FC = () => {
     {} as Equipament,
   );
 
-  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [url, setUrl] = useState('');
+
+  async function handleImg(imgString: string) {
+    const base64Response = await fetch(`data:image/jpeg;base64,${imgString}`);
+
+    const blob = await base64Response.blob();
+
+    return URL.createObjectURL(blob);
+  }
 
   useEffect(() => {
     async function fetchEquips() {
       const { data } = await getEquipments();
+
       const dataMapped = data.map((equipment: Equipament) => {
         return { ...equipment, status: equipment.status ? 1 : 0 };
       });
@@ -63,12 +73,12 @@ const Equipments: React.FC = () => {
 
   return (
     <>
-      {isPreviewOpen && (
+      {url && (
         <ImagePreview
           name="Mona Liza"
           code="DAVINCI"
-          imgUrl="https://s1.static.brasilescola.uol.com.br/be/imagens/artes/monalisa1000.jpg"
-          onClose={() => console.log('On Close')}
+          imgUrl={url}
+          onClose={() => setUrl('')}
         />
       )}
       <Container className="page-container">
@@ -85,6 +95,7 @@ const Equipments: React.FC = () => {
         <Form
           title="Adicionar um Equipamento"
           equipmentSelected={selectedEquipment}
+          handleImg={async imgString => setUrl(await handleImg(imgString))}
         />
       </Container>
     </>

@@ -19,6 +19,7 @@ export const HeaderWrapper = styled.div`
   align-items: flex-start;
   height: 65px;
 
+  position: relative;
   border-bottom: 1px solid #cccccc;
 `;
 
@@ -39,8 +40,8 @@ export const AddButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  bottom: 29px;
+  position: fixed;
+  bottom: 15px;
   cursor: pointer;
-  right: 26px;
+  left: 365px;
 `;

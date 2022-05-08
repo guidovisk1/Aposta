@@ -15,7 +15,7 @@ import {
 } from './styles';
 
 interface ImagePreviewProps {
-  imgUrl: string;
+  imgUrl?: string;
   name: string;
   code: string;
   onClose: () => void;
