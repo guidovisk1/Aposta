@@ -61,8 +61,8 @@ const Operations: React.FC = () => {
       setSearchedOperation([] as Operation[]);
     setSearchedOperation(
       operations.filter(operation =>
-        operation.descricao
-          .toLowerCase()
+        operation?.descricao
+          ?.toLowerCase()
           .includes(searchedValue.toLocaleLowerCase()),
       ),
     );

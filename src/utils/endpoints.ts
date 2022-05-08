@@ -30,6 +30,11 @@ export const endpoints = {
     CREATE: 'operacoes',
     UPDATE: 'operacoes',
   },
+  MAINTANANCEREQUESTS: {
+    GET_ALL: 'ordens',
+    CREATE: 'ordens',
+    UPDATE: 'ordens',
+  },
 
   // The reason we have this kind of duplication is because I want to prevent too much effort
   // if for some reason those endpoints changes during the development.

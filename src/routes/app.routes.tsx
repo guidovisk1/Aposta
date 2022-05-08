@@ -10,6 +10,7 @@ import Tools from '../pages/Tools';
 import EPIs from '../pages/EPIs';
 import Trainings from '../pages/Trainings';
 import Operations from '../pages/Operations';
+import MaintananceRequests from '../pages/MaintananceRequests';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -40,6 +41,12 @@ const AppRoutes: React.FC = () => {
         exact
         path="/dashboard/operacoes"
         component={Operations}
+      />
+      <Route
+        isPrivate
+        exact
+        path="/dashboard/ordens-manutencao"
+        component={MaintananceRequests}
       />
       <RouterDom path="*" render={() => <Redirect to="/" />} />
     </Switch>

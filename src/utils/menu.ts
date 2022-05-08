@@ -48,6 +48,13 @@ const menuOptions = [
     breadCrumb: 'Operações',
     id: 7,
   },
+  {
+    title: 'Ordens de Manutenção',
+    icon: 'maintananceIcon',
+    path: '/dashboard/ordens-manutencao',
+    breadCrumb: 'Ordens de Manutenção',
+    id: 8,
+  },
 ];
 
 export default menuOptions;
