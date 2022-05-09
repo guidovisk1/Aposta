@@ -72,7 +72,6 @@ const Form: React.FC<FormProps> = ({ title, operationSelected }) => {
   const [epis, setEpis] = useState<any[]>([]);
   const [imageName, setImageName] = useState('');
   const [pdfName, setPdfName] = useState('');
-  const [videoName, setVideoName] = useState('');
 
   const [operationAux, setOperationAux] = useState<Operation | undefined>(
     undefined,
