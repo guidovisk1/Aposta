@@ -10,7 +10,7 @@ import ListItem from './components/ListItem';
 import Form from './components/Form';
 
 interface Tool {
-  codFerramenta: string;
+  cod_ferramenta: string;
   descricao: string;
   imagem?: string;
   status?: number;
