@@ -172,7 +172,7 @@ const Form: React.FC<FormProps> = ({ title, operationSelected }) => {
         }
 
         formData.append('descricao', values.descricao);
-        formData.append('status', String(values.status));
+        formData.append('status', values.status === 1 ? 'true' : 'false');
         formData.append('instrucao', values.instrucao);
         formData.append(
           'cod_operacao',
