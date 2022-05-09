@@ -77,12 +77,18 @@ const Form: React.FC<FormProps> = ({ title, epiSelected }) => {
       }}
       enableReinitialize
       onSubmit={values => {
+        const formData = new FormData();
+        formData.append('descricao', values.descricao);
+        formData.append('status', values.status === 1 ? 'true' : 'false');
+
+        const imgFile = (values.imagem as any)[0];
+
+        if (imgFile) {
+          formData.append('imagem', imgFile);
+        }
+
         if (isEpiSelected.length) {
-          return updateEpi({
-            ...values,
-            cod_epi: epiSelected?.cod_epi || '',
-            status: values.status === 1,
-          })
+          return updateEpi(epiAux?.cod_epi || '', formData)
             .then(() => swalSuccess('EPI editado com sucesso!'))
             .catch(() =>
               swalError(
@@ -91,11 +97,8 @@ const Form: React.FC<FormProps> = ({ title, epiSelected }) => {
             );
         }
 
-        return createEpi({
-          ...values,
-          status: values.status === 1,
-          cod_epi: code,
-        })
+        formData.append('cod_epi', code);
+        return createEpi(formData)
           .then(() => swalSuccess('ferramenta criada com sucesso!'))
           .catch(() =>
             swalError(
