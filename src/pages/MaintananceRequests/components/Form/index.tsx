@@ -136,12 +136,19 @@ const Form: React.FC<FormProps> = ({ title, maintananceRequestSelected }) => {
         descricao: '',
         status: 1,
         cod_equipamento: '',
-        gruposUsuarioIds: [],
-        tipo: '',
+
+        tipo: '1',
         aprovacao_usuario: '',
         aprovacao_situacao: 1,
-        operacoesIds: [],
         ...maintananceRequestAux,
+        gruposUsuarioIds:
+          (maintananceRequestAux as any)?.gruposUsuario.map(
+            (gp: any) => gp.cod_grupoUsuarios,
+          ) || [],
+        operacoesIds:
+          (maintananceRequestAux as any)?.operacoes?.map(
+            (op: any) => op.cod_operacao,
+          ) || [],
         data_fim: maintananceRequestAux?.data_fim
           ? format(new Date(maintananceRequestAux?.data_fim), 'yyyy-MM-dd')
           : '',
@@ -165,7 +172,7 @@ const Form: React.FC<FormProps> = ({ title, maintananceRequestSelected }) => {
               status: Boolean(values.status),
               cod_equipamento: values.cod_equipamento,
               gruposUsuarioIds: values.gruposUsuarioIds,
-              tipo: '',
+              tipo: values.tipo,
               operacoesIds: values.operacoesIds,
               data_ordem: values.data_ordem,
               data_prazo: values.data_prazo,
@@ -229,11 +236,11 @@ const Form: React.FC<FormProps> = ({ title, maintananceRequestSelected }) => {
             <SelectInput
               options={equipments.map((eqp: any) => ({
                 label: eqp.descricao,
-                value: eqp.cod_equipamento,
+                id: eqp.cod_equipamento,
               }))}
-              consideredValue="cod_equipamento"
               width="200px"
-              name="cod_equipamentos"
+              consideredValue="id"
+              name="cod_equipamento"
               labelText="Equipamento*"
               value={values.cod_equipamento}
               onChange={handleChange}
@@ -266,18 +273,18 @@ const Form: React.FC<FormProps> = ({ title, maintananceRequestSelected }) => {
           <InputsWrapper>
             <SelectInput
               options={[
-                { label: 'Sim', id: 1 },
-                { label: 'Não', id: 0 },
+                { label: 'Inspeção', id: 0 },
+                { label: 'Manutenção Preventiva', id: 1 },
+                { label: 'Manutenção Corretiva', id: 2 },
               ]}
-              consideredValue="id"
               width="250px"
               name="tipo"
-              labelText="Tipo*"
+              consideredValue="id"
+              labelText="Tipo"
               value={values.tipo}
               onChange={handleChange}
               onBlur={handleBlur}
             />
-
             <SelectInput
               options={[
                 { label: 'Sim', id: 1 },
@@ -342,10 +349,10 @@ const Form: React.FC<FormProps> = ({ title, maintananceRequestSelected }) => {
             <SelectInput
               options={users.map((user: any) => ({
                 label: user.nome,
-                value: user.cod_usuario,
+                id: user.cod_usuario,
               }))}
               width="160px"
-              type="date"
+              consideredValue="id"
               name="aprovacao_usuario"
               labelText="Aprovador"
               value={values.aprovacao_usuario}
