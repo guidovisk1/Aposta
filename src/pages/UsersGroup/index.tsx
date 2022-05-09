@@ -70,7 +70,7 @@ const UserGroup: React.FC = () => {
       </SideInfoPanel>
 
       <Form
-        title="Adicionar um Treinamento"
+        title="Adicionar um Grupo de Usuário"
         userGroupSelected={selectedTraining}
       />
     </Container>
