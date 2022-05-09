@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
+import { format } from 'date-fns';
+
 import swal from 'sweetalert2';
 
 import { Formik } from 'formik';
@@ -136,14 +138,22 @@ const Form: React.FC<FormProps> = ({ title, maintananceRequestSelected }) => {
         cod_equipamento: '',
         gruposUsuarioIds: [],
         tipo: '',
-        operacoesIds: [],
-        data_ordem: '',
-        data_prazo: '',
         aprovacao_usuario: '',
         aprovacao_situacao: 1,
-        data_inicio: '',
-        data_fim: '',
+        operacoesIds: [],
         ...maintananceRequestAux,
+        data_fim: maintananceRequestAux?.data_fim
+          ? format(new Date(maintananceRequestAux?.data_fim), 'yyyy-MM-dd')
+          : '',
+        data_ordem: maintananceRequestAux?.data_ordem
+          ? format(new Date(maintananceRequestAux?.data_ordem), 'yyyy-MM-dd')
+          : '',
+        data_prazo: maintananceRequestAux?.data_prazo
+          ? format(new Date(maintananceRequestAux?.data_prazo), 'yyyy-MM-dd')
+          : '',
+        data_inicio: maintananceRequestAux?.data_inicio
+          ? format(new Date(maintananceRequestAux.data_inicio), 'yyyy-MM-dd')
+          : '',
       }}
       enableReinitialize
       onSubmit={values => {
@@ -322,6 +332,7 @@ const Form: React.FC<FormProps> = ({ title, maintananceRequestSelected }) => {
               name="data_prazo"
               width="160px"
               type="date"
+              lang="pt-BR"
               labelText="Data Prazo"
               value={values.data_prazo}
               onChange={handleChange}
