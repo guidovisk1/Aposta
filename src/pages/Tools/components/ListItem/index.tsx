@@ -15,7 +15,7 @@ import {
 } from './styles';
 
 interface Item {
-  codFerramenta: string;
+  cod_ferramenta: string;
   descricao: string;
   imagem?: string;
 }
@@ -29,7 +29,7 @@ const ListItem: React.FC<ListItemProps> = ({ list, onClicked }) => {
     <Container>
       {list.length &&
         list.map(tool => (
-          <Item key={tool.codFerramenta} onClick={() => onClicked(tool)}>
+          <Item key={tool.cod_ferramenta} onClick={() => onClicked(tool)}>
             <LogoWrapper>
               <RoundedOutline>
                 <img src={toolIcon} />
@@ -42,7 +42,7 @@ const ListItem: React.FC<ListItemProps> = ({ list, onClicked }) => {
               </NameWrapper>
 
               <DownInfoWrapper>
-                <Sector>COD: {tool.codFerramenta}</Sector>
+                <Sector>COD: {tool.cod_ferramenta}</Sector>
                 <Sector>FOTO: {tool.imagem ? 'SIM' : 'NÃO'}</Sector>
               </DownInfoWrapper>
             </EquipmentInfoWrapper>

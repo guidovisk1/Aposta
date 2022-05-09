@@ -27,7 +27,7 @@ import { createTool, updateTool } from '../../../../services/tools.service';
 import validations from './validations';
 
 interface Tool {
-  codFerramenta: string;
+  cod_ferramenta: string;
   descricao: string;
   imagem?: string;
   status?: number;
@@ -83,11 +83,10 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
 
         formData.append('imagem', file);
         formData.append('descricao', values.descricao);
-        formData.append('status', String(values.status));
-        formData.append('codFerramenta', toolAux?.codFerramenta || '');
+        formData.append('status', values.status === 1 ? 'true' : 'false');
 
         if (isToolSelected.length) {
-          return updateTool({ ...formData })
+          return updateTool(toolAux?.cod_ferramenta || '', formData)
             .then(() => swalSuccess('ferramenta editada com sucesso!'))
             .catch(() =>
               swalError(
@@ -96,8 +95,8 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
             );
         }
 
-        formData.append('codFerramenta', code);
-        return createTool({ ...formData })
+        formData.append('cod_ferramenta', code);
+        return createTool(formData)
           .then(() => swalSuccess('ferramenta criada com sucesso!'))
           .catch(() =>
             swalError(
