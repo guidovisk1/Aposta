@@ -8,6 +8,7 @@ import helmetIcon from '../assets/icons/helmet-icon.svg';
 import trainingIcon from '../assets/icons/trainning-icon.svg';
 import operationsIcon from '../assets/icons/operations-icon.svg';
 import maintananceIcon from '../assets/icons/maintanance-icon.svg';
+import maintananceListIcon from '../assets/icons/maintanance-list-icon.svg';
 
 interface Icons {
   [key: string]: string;
@@ -24,4 +25,5 @@ export const icons: Icons = {
   trainingIcon,
   operationsIcon,
   maintananceIcon,
+  maintananceListIcon,
 };

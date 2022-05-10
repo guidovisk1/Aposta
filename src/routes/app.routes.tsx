@@ -11,6 +11,7 @@ import EPIs from '../pages/EPIs';
 import Trainings from '../pages/Trainings';
 import Operations from '../pages/Operations';
 import MaintananceRequests from '../pages/MaintananceRequests';
+import MaintananceRequestList from '../pages/MaintananceRequestList';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -47,6 +48,12 @@ const AppRoutes: React.FC = () => {
         exact
         path="/dashboard/ordens-manutencao"
         component={MaintananceRequests}
+      />
+      <Route
+        isPrivate
+        exact
+        path="/dashboard/consulta-ordens-manutencao"
+        component={MaintananceRequestList}
       />
       <RouterDom path="*" render={() => <Redirect to="/" />} />
     </Switch>

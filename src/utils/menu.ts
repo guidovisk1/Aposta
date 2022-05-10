@@ -1,5 +1,12 @@
 const menuOptions = [
   {
+    title: 'Consulta Ordens de Manutenção',
+    icon: 'maintananceListIcon',
+    path: '/dashboard/consulta-ordens-manutencao',
+    breadCrumb: 'Consulta Ordens de Manutenção',
+    id: 0,
+  },
+  {
     title: 'Cadastro de Usuário',
     icon: 'user',
     path: '/dashboard/users',
