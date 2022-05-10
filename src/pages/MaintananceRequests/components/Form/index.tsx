@@ -142,7 +142,7 @@ const Form: React.FC<FormProps> = ({ title, maintananceRequestSelected }) => {
         aprovacao_situacao: 1,
         ...maintananceRequestAux,
         gruposUsuarioIds:
-          (maintananceRequestAux as any)?.gruposUsuario.map(
+          (maintananceRequestAux as any)?.gruposUsuario?.map(
             (gp: any) => gp.cod_grupoUsuarios,
           ) || [],
         operacoesIds:
