@@ -7,6 +7,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   secondary?: boolean;
   loading?: boolean;
   full?: boolean;
+  width?: string;
+  height?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -15,6 +17,8 @@ const Button: React.FC<ButtonProps> = ({
   secondary = false,
   loading = false,
   full = false,
+  width,
+  height,
   ...rest
 }) => {
   return (
@@ -24,6 +28,8 @@ const Button: React.FC<ButtonProps> = ({
       secondary={secondary}
       loading={loading || undefined}
       full={full}
+      width={width}
+      height={height}
     >
       {loading ? '' : children}
     </Container>

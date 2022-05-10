@@ -5,6 +5,8 @@ interface ButtonProps {
   disabled?: boolean;
   loading?: boolean;
   full?: boolean;
+  height?: string;
+  width?: string;
 }
 
 export const Container = styled.button<ButtonProps>`
@@ -16,6 +18,20 @@ export const Container = styled.button<ButtonProps>`
     css`
       width: 100%;
     `}
+
+  ${props =>
+    props.width &&
+    css`
+      height: ${props.width};
+    `}
+
+  ${props =>
+    props.height &&
+    css`
+      height: ${props.height};
+    `}
+
+
 
   background-color: #ff5427;
   color: #fff;
