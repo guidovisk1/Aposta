@@ -12,6 +12,10 @@ export const createMaintananceRequests = (data: MaintananceRequest) => {
   return api.post(endpoints.MAINTANANCEREQUESTS.GET_ALL, data);
 };
 
+export const getById = (id: string) => {
+  return api.get(`${endpoints.MAINTANANCEREQUESTS.GET_ALL}/${id}`);
+};
+
 export const updateMaintananceRequests = (
   cod_ordemDeManutencao: string,
   data: MaintananceRequest,

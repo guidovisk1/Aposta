@@ -7,6 +7,9 @@ interface ButtonProps {
   full?: boolean;
   height?: string;
   width?: string;
+  color?: string;
+  backgroundColor?: string;
+  tertiary?: boolean;
 }
 
 export const Container = styled.button<ButtonProps>`
@@ -30,6 +33,19 @@ export const Container = styled.button<ButtonProps>`
     css`
       height: ${props.height};
     `}
+
+  ${props =>
+    props.backgroundColor &&
+    css`
+      background-color: ${props.backgroundColor};
+    `}
+
+  ${props =>
+    props.color &&
+    css`
+      color: ${props.color};
+    `}
+
 
 
 
@@ -80,6 +96,15 @@ export const Container = styled.button<ButtonProps>`
       font-size: 13px;
       background-color: #c6c6c6;
       cursor: not-allowed;
+    `}
+
+  ${props =>
+    props.tertiary &&
+    css`
+      color: #ff5427;
+      font-size: 13px;
+      background-color: transparent;
+      border: 1px solid #ff5427;
     `}
 
   ${props =>

@@ -12,6 +12,7 @@ import Trainings from '../pages/Trainings';
 import Operations from '../pages/Operations';
 import MaintananceRequests from '../pages/MaintananceRequests';
 import MaintananceRequestList from '../pages/MaintananceRequestList';
+import RequestsApproval from '../pages/RequestsApproval';
 
 const AppRoutes: React.FC = () => {
   return (
@@ -54,6 +55,12 @@ const AppRoutes: React.FC = () => {
         exact
         path="/dashboard/consulta-ordens-manutencao"
         component={MaintananceRequestList}
+      />
+      <Route
+        isPrivate
+        exact
+        path="/dashboard/ordens-manutencao-aprovacao/:id"
+        component={RequestsApproval}
       />
       <RouterDom path="*" render={() => <Redirect to="/" />} />
     </Switch>

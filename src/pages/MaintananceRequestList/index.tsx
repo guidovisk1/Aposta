@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 import { getMaintananceRequests } from '../../services/maintananceRequests.service';
@@ -9,6 +11,7 @@ import { Container, GridWrapper } from './styles';
 import Button from '../../components/Button';
 
 const MaintananceRequestList: React.FC = () => {
+  const history = useHistory();
   const situations = [
     { label: 'Em Execução', value: 'EmExecucao' },
     { label: 'NaoIniciada', value: 'Não Iniciada' },
@@ -88,6 +91,11 @@ const MaintananceRequestList: React.FC = () => {
             disabled={prop.value !== 'Pendente'}
             width="138px"
             height="33px"
+            onClick={() =>
+              history.push(
+                `/dashboard/ordens-manutencao-aprovacao/${prop.row.id}`,
+              )
+            }
           >
             {prop.value === 'Pendente' ? 'Aprovar' : prop.value}
           </Button>
