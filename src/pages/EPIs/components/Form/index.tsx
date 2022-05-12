@@ -42,6 +42,7 @@ interface FormProps {
 const Form: React.FC<FormProps> = ({ title, epiSelected, onSave }) => {
   const isEpiSelected = Object.keys(epiSelected || {});
   const code = v4();
+  let fileName = '';
 
   const [epiAux, setEpilAux] = useState<EPI | undefined>(undefined);
 
@@ -165,7 +166,6 @@ const Form: React.FC<FormProps> = ({ title, epiSelected, onSave }) => {
             labelText="STATUS*"
             value={values.status}
             onChange={e => {
-              console.log(e.target.value);
               setFieldValue('status', e.target.value);
             }}
             onBlur={handleBlur}
@@ -173,10 +173,14 @@ const Form: React.FC<FormProps> = ({ title, epiSelected, onSave }) => {
           <ContainerInputFile htmlFor="input-file">
             <img src={cloudIcon} alt="cloud icon" />
             <SendImageText>Enviar Imagem</SendImageText>
+            <SendImageText>{fileName}</SendImageText>
             <UploadInput
               accept="image/*"
               onChange={e => {
                 setFieldValue('imagem', e.currentTarget.files);
+                fileName = e.currentTarget.files
+                  ? e.currentTarget?.files[0]?.name
+                  : '';
               }}
               name="imagem"
               id="input-file"

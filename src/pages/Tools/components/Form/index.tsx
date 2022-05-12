@@ -42,6 +42,7 @@ interface FormProps {
 const Form: React.FC<FormProps> = ({ title, toolSelected, onSave }) => {
   const isToolSelected = Object.keys(toolSelected || {});
   const code = v4();
+  let fileName = '';
 
   const [toolAux, setToolAux] = useState<Tool | undefined>(undefined);
 
@@ -167,10 +168,14 @@ const Form: React.FC<FormProps> = ({ title, toolSelected, onSave }) => {
           <ContainerInputFile htmlFor="input-file">
             <img src={cloudIcon} alt="cloud icon" />
             <SendImageText>Enviar Imagem</SendImageText>
+            <SendImageText>{fileName}</SendImageText>
             <UploadInput
               accept="image/*"
               onChange={e => {
                 setFieldValue('imagem', e.currentTarget.files);
+                fileName = e.currentTarget.files
+                  ? e.currentTarget?.files[0]?.name
+                  : '';
               }}
               name="imagem"
               id="input-file"

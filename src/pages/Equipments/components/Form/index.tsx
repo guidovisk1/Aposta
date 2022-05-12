@@ -6,6 +6,7 @@ import { v4 } from 'uuid';
 import swal from 'sweetalert2';
 
 import { Formik } from 'formik';
+import { fi } from 'date-fns/locale';
 import SelectInput from '../../../../components/SelectInput';
 import cloudIcon from '../../../../assets/icons/cloud-icon.svg';
 
@@ -50,7 +51,7 @@ const Form: React.FC<FormProps> = ({
 }) => {
   const isEquipmentSelected = Object.keys(equipmentSelected || {});
   const code = v4();
-
+  let fileName = '';
   const swalSuccess = (message: string) => {
     return swal.fire({
       title: 'Tudo certo!',
@@ -176,10 +177,14 @@ const Form: React.FC<FormProps> = ({
           <ContainerInputFile htmlFor="input-file">
             <img src={cloudIcon} alt="cloud icon" />
             <SendImageText>Enviar Imagem</SendImageText>
+            <SendImageText>{fileName}</SendImageText>
             <UploadInput
               accept="image/*"
               onChange={e => {
                 setFieldValue('imagem', e.currentTarget.files);
+                fileName = e.currentTarget.files
+                  ? e.currentTarget?.files[0]?.name
+                  : '';
               }}
               name="imagem"
               id="input-file"
