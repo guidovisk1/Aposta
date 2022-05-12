@@ -49,7 +49,7 @@ const RequestCard: React.FC<Partial<MaintananceRequest>> = ({
         <HeaderTexts>
           {cod_ordemDeManutencao} {descricao}
         </HeaderTexts>
-        {!urgencia && <UrgencyBadge>Urgente</UrgencyBadge>}
+        {urgencia && <UrgencyBadge>Urgente</UrgencyBadge>}
       </HeaderContainer>
       <Row>
         <PropertiesWrapper>
