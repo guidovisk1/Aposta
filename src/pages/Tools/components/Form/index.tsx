@@ -89,7 +89,7 @@ const Form: React.FC<FormProps> = ({ title, toolSelected, onSave }) => {
         if (isToolSelected.length) {
           return updateTool(toolAux?.cod_ferramenta || '', formData)
             .then(() => {
-              swalSuccess('ferramenta editada com sucesso!');
+              swalSuccess('Ferramenta editada com sucesso!');
               onSave();
             })
             .catch(() =>
@@ -102,7 +102,7 @@ const Form: React.FC<FormProps> = ({ title, toolSelected, onSave }) => {
         formData.append('cod_ferramenta', code);
         return createTool(formData)
           .then(() => {
-            swalSuccess('ferramenta criada com sucesso!');
+            swalSuccess('Ferramenta criada com sucesso!');
             onSave();
           })
           .catch(() =>
