@@ -74,7 +74,7 @@ const Form: React.FC<FormProps> = ({ title, trainingSelected, onSave }) => {
           return updateTraining({
             ...values,
             cod_treinamento: trainingSelected?.cod_treinamento || '',
-            status: values.status === 1,
+            status: Number(values.status) === 1,
           })
             .then(() => {
               swalSuccess('Treinamento editado com sucesso!');
@@ -89,7 +89,7 @@ const Form: React.FC<FormProps> = ({ title, trainingSelected, onSave }) => {
 
         return createTraining({
           ...values,
-          status: values.status === 1,
+          status: Number(values.status) === 1,
           cod_treinamento: code,
         })
           .then(() => {

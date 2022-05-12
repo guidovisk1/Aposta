@@ -80,7 +80,11 @@ const Form: React.FC<FormProps> = ({ title, epiSelected, onSave }) => {
       onSubmit={values => {
         const formData = new FormData();
         formData.append('descricao', values.descricao);
-        formData.append('status', values.status === 1 ? 'true' : 'false');
+        // eslint-disable-next-line eqeqeq
+        formData.append(
+          'status',
+          Number(values.status) === 1 ? 'true' : 'false',
+        );
 
         const imgFile = (values.imagem as any)[0];
 
@@ -160,7 +164,10 @@ const Form: React.FC<FormProps> = ({ title, epiSelected, onSave }) => {
             name="status"
             labelText="STATUS*"
             value={values.status}
-            onChange={handleChange}
+            onChange={e => {
+              console.log(e.target.value);
+              setFieldValue('status', e.target.value);
+            }}
             onBlur={handleBlur}
           />
           <ContainerInputFile htmlFor="input-file">

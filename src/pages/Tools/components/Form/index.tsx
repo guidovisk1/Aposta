@@ -84,7 +84,10 @@ const Form: React.FC<FormProps> = ({ title, toolSelected, onSave }) => {
 
         formData.append('imagem', file);
         formData.append('descricao', values.descricao);
-        formData.append('status', values.status === 1 ? 'true' : 'false');
+        formData.append(
+          'status',
+          Number(values.status) === 1 ? 'true' : 'false',
+        );
 
         if (isToolSelected.length) {
           return updateTool(toolAux?.cod_ferramenta || '', formData)

@@ -74,7 +74,7 @@ const Form: React.FC<FormProps> = ({ title, userGroupSelected, onSave }) => {
           return updateUserGroups({
             ...values,
             cod_grupoUsuarios: userGroupSelected?.cod_grupoUsuarios || '',
-            status: values.status === 1,
+            status: Number(values.status) === 1,
           })
             .then(() => {
               swalSuccess('Grupo de Usuários editado com sucesso!');
@@ -89,7 +89,7 @@ const Form: React.FC<FormProps> = ({ title, userGroupSelected, onSave }) => {
 
         return createUserGroups({
           ...values,
-          status: values.status === 1,
+          status: Number(values.status) === 1,
           cod_grupoUsuarios: code,
         })
           .then(() => {

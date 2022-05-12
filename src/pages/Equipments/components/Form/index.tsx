@@ -84,6 +84,10 @@ const Form: React.FC<FormProps> = ({
 
         formData.append('descricao', values.descricao);
         formData.append('cod_equipamento', code);
+        formData.append(
+          'status',
+          Number(values.status) === 1 ? 'true' : 'false',
+        );
 
         if (file) {
           formData.append('imagem', file);
