@@ -36,9 +36,10 @@ interface Tool {
 interface FormProps {
   title: string;
   toolSelected?: Tool;
+  onSave: () => void;
 }
 
-const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
+const Form: React.FC<FormProps> = ({ title, toolSelected, onSave }) => {
   const isToolSelected = Object.keys(toolSelected || {});
   const code = v4();
 
@@ -87,7 +88,10 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
 
         if (isToolSelected.length) {
           return updateTool(toolAux?.cod_ferramenta || '', formData)
-            .then(() => swalSuccess('ferramenta editada com sucesso!'))
+            .then(() => {
+              swalSuccess('ferramenta editada com sucesso!');
+              onSave();
+            })
             .catch(() =>
               swalError(
                 'Um erro ocorreu na edição da ferramenta. Revise as informações e tente novamente',
@@ -97,7 +101,10 @@ const Form: React.FC<FormProps> = ({ title, toolSelected }) => {
 
         formData.append('cod_ferramenta', code);
         return createTool(formData)
-          .then(() => swalSuccess('ferramenta criada com sucesso!'))
+          .then(() => {
+            swalSuccess('ferramenta criada com sucesso!');
+            onSave();
+          })
           .catch(() =>
             swalError(
               'Um erro ocorreu na criação da ferramenta. Revise as informações e tente novamente',

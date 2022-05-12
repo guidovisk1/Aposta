@@ -43,9 +43,10 @@ interface User {
 interface FormProps {
   title: string;
   userSelected?: User;
+  onSave: () => void;
 }
 
-const Form: React.FC<FormProps> = ({ title, userSelected }) => {
+const Form: React.FC<FormProps> = ({ title, userSelected, onSave }) => {
   const cod_usuario = v4();
   const isUserSelected = Object.keys(userSelected || {});
 
@@ -132,7 +133,10 @@ const Form: React.FC<FormProps> = ({ title, userSelected }) => {
             setor: values?.setor || '',
             status: !!Number(values.status),
           })
-            .then(() => swalSuccess('Usuário editado com sucesso'))
+            .then(() => {
+              swalSuccess('Usuário editado com sucesso');
+              onSave();
+            })
             .catch(() =>
               swalError('Algo deu errado! Usuário não pode ser editado'),
             );
@@ -142,7 +146,10 @@ const Form: React.FC<FormProps> = ({ title, userSelected }) => {
           cod_usuario,
           status: !!Number(values.status),
         })
-          .then(() => swalSuccess('Usuário criado com sucesso!'))
+          .then(() => {
+            swalSuccess('Usuário criado com sucesso!');
+            onSave();
+          })
           .catch(() =>
             swalError(
               'Algo deu errado. Revise as informações e tente novamente',

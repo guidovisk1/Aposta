@@ -61,9 +61,10 @@ interface Operation {
 interface FormProps {
   title: string;
   operationSelected?: Operation;
+  onSave: () => void;
 }
 
-const Form: React.FC<FormProps> = ({ title, operationSelected }) => {
+const Form: React.FC<FormProps> = ({ title, operationSelected, onSave }) => {
   const isOperationSelected = Object.keys(operationSelected || {});
   const code = v4();
 
@@ -186,7 +187,10 @@ const Form: React.FC<FormProps> = ({ title, operationSelected }) => {
 
         if (isOperationSelected.length) {
           return updateOperation(values.cod_operacao || '', formData)
-            .then(() => swalSuccess('Operação editada com sucesso!'))
+            .then(() => {
+              swalSuccess('Operação editada com sucesso!');
+              onSave();
+            })
             .catch(() =>
               swalError(
                 'Um erro ocorreu na edição da Operação. Revise as informações e tente novamente',
@@ -195,7 +199,10 @@ const Form: React.FC<FormProps> = ({ title, operationSelected }) => {
         }
 
         return createOperation(formData)
-          .then(() => swalSuccess('Operação criada com sucesso!'))
+          .then(() => {
+            swalSuccess('Operação criada com sucesso!');
+            onSave();
+          })
           .catch(() =>
             swalError(
               'Um erro ocorreu na criação do Operação. Revise as informações e tente novamente',

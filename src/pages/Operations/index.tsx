@@ -37,15 +37,15 @@ const Operations: React.FC = () => {
     {} as Operation,
   );
 
-  useEffect(() => {
-    async function fetchOperations() {
-      const { data } = await getOperations();
-      const operationsMapped = data.map((operation: Operation) => {
-        return { ...operation, status: operation.status ? 1 : 0 };
-      });
-      setOperations(operationsMapped);
-    }
+  async function fetchOperations() {
+    const { data } = await getOperations();
+    const operationsMapped = data.map((operation: Operation) => {
+      return { ...operation, status: operation.status ? 1 : 0 };
+    });
+    setOperations(operationsMapped);
+  }
 
+  useEffect(() => {
     fetchOperations();
   }, []);
 
@@ -83,6 +83,7 @@ const Operations: React.FC = () => {
       <Form
         title="Adicionar uma Operação"
         operationSelected={selectedOperation}
+        onSave={() => fetchOperations()}
       />
     </Container>
   );

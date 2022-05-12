@@ -26,15 +26,15 @@ const Trainings: React.FC = () => {
     {} as Training,
   );
 
-  useEffect(() => {
-    async function fetchTrainings() {
-      const { data } = await getTrainings();
-      const trainingsMapped = data.map((training: Training) => {
-        return { ...training, status: training.status ? 1 : 0 };
-      });
-      setTrainings(trainingsMapped);
-    }
+  async function fetchTrainings() {
+    const { data } = await getTrainings();
+    const trainingsMapped = data.map((training: Training) => {
+      return { ...training, status: training.status ? 1 : 0 };
+    });
+    setTrainings(trainingsMapped);
+  }
 
+  useEffect(() => {
     fetchTrainings();
   }, []);
 
@@ -72,6 +72,7 @@ const Trainings: React.FC = () => {
       <Form
         title="Adicionar um Treinamento"
         trainingSelected={selectedTraining}
+        onSave={() => fetchTrainings()}
       />
     </Container>
   );

@@ -40,15 +40,16 @@ const Equipments: React.FC = () => {
     return URL.createObjectURL(blob);
   }
 
-  useEffect(() => {
-    async function fetchEquips() {
-      const { data } = await getEquipments();
+  async function fetchEquips() {
+    const { data } = await getEquipments();
 
-      const dataMapped = data.map((equipment: Equipament) => {
-        return { ...equipment, status: equipment.status ? 1 : 0 };
-      });
-      setEquipments(dataMapped);
-    }
+    const dataMapped = data.map((equipment: Equipament) => {
+      return { ...equipment, status: equipment.status ? 1 : 0 };
+    });
+    setEquipments(dataMapped);
+  }
+
+  useEffect(() => {
     fetchEquips();
   }, []);
 
@@ -96,6 +97,7 @@ const Equipments: React.FC = () => {
           title="Adicionar um Equipamento"
           equipmentSelected={selectedEquipment}
           handleImg={async imgString => setUrl(await handleImg(imgString))}
+          onSave={() => fetchEquips()}
         />
       </Container>
     </>

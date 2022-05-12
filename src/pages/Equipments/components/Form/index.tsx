@@ -39,9 +39,15 @@ interface FormProps {
   title: string;
   equipmentSelected?: Equipment;
   handleImg: (imgString: string) => void;
+  onSave: () => void;
 }
 
-const Form: React.FC<FormProps> = ({ title, equipmentSelected, handleImg }) => {
+const Form: React.FC<FormProps> = ({
+  title,
+  equipmentSelected,
+  handleImg,
+  onSave,
+}) => {
   const isEquipmentSelected = Object.keys(equipmentSelected || {});
   const code = v4();
 
@@ -88,7 +94,10 @@ const Form: React.FC<FormProps> = ({ title, equipmentSelected, handleImg }) => {
             equipmentSelected?.cod_equipamento || '',
             formData,
           )
-            .then(() => swalSuccess('Equipamento editado com sucesso!'))
+            .then(() => {
+              swalSuccess('Equipamento editado com sucesso!');
+              onSave();
+            })
             .catch(() =>
               swalError(
                 'Um erro ocorreu na edição do equipamento. Revise as informações e tente novamente',
@@ -97,7 +106,10 @@ const Form: React.FC<FormProps> = ({ title, equipmentSelected, handleImg }) => {
         }
 
         return createEquipment(formData)
-          .then(() => swalSuccess('Equipamento criado com sucesso!'))
+          .then(() => {
+            swalSuccess('Equipamento criado com sucesso!');
+            onSave();
+          })
           .catch(() =>
             swalError(
               'Um erro ocorreu na criação do equipamento. Revise as informações e tente novamente',

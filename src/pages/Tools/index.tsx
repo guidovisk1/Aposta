@@ -23,15 +23,15 @@ const Tools: React.FC = () => {
 
   const [selectedTool, setSelectedTool] = useState<Tool>({} as Tool);
 
-  useEffect(() => {
-    async function getAllTool() {
-      const { data } = await getTools();
-      const toolsMapped = data.map((tool: Tool) => {
-        return { ...tool, status: tool.status ? 1 : 0 };
-      });
-      setTools(toolsMapped);
-    }
+  async function getAllTool() {
+    const { data } = await getTools();
+    const toolsMapped = data.map((tool: Tool) => {
+      return { ...tool, status: tool.status ? 1 : 0 };
+    });
+    setTools(toolsMapped);
+  }
 
+  useEffect(() => {
     getAllTool();
   }, []);
 
@@ -66,7 +66,11 @@ const Tools: React.FC = () => {
           onClicked={item => handleToolSelection(item)}
         />
       </SideInfoPanel>
-      <Form title="Adicionar uma Ferramenta" toolSelected={selectedTool} />
+      <Form
+        title="Adicionar uma Ferramenta"
+        toolSelected={selectedTool}
+        onSave={() => getAllTool()}
+      />
     </Container>
   );
 };

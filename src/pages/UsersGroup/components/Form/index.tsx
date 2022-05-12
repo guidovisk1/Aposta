@@ -29,9 +29,10 @@ interface Training {
 interface FormProps {
   title: string;
   userGroupSelected?: Training;
+  onSave: () => void;
 }
 
-const Form: React.FC<FormProps> = ({ title, userGroupSelected }) => {
+const Form: React.FC<FormProps> = ({ title, userGroupSelected, onSave }) => {
   const isUserGroupSelected = Object.keys(userGroupSelected || {});
   const code = v4();
 
@@ -75,7 +76,10 @@ const Form: React.FC<FormProps> = ({ title, userGroupSelected }) => {
             cod_grupoUsuarios: userGroupSelected?.cod_grupoUsuarios || '',
             status: values.status === 1,
           })
-            .then(() => swalSuccess('Grupo de Usuários editado com sucesso!'))
+            .then(() => {
+              swalSuccess('Grupo de Usuários editado com sucesso!');
+              onSave();
+            })
             .catch(() =>
               swalError(
                 'Um erro ocorreu na edição do Grupo de Usuário. Revise as informações e tente novamente',
@@ -88,7 +92,10 @@ const Form: React.FC<FormProps> = ({ title, userGroupSelected }) => {
           status: values.status === 1,
           cod_grupoUsuarios: code,
         })
-          .then(() => swalSuccess('Grupo de Usuários criado com sucesso!'))
+          .then(() => {
+            swalSuccess('Grupo de Usuários criado com sucesso!');
+            onSave();
+          })
           .catch(() =>
             swalError(
               'Um erro ocorreu na criação do Grupo de Usuários. Revise as informações e tente novamente',

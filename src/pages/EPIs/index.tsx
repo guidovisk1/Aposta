@@ -23,15 +23,15 @@ const EPIs: React.FC = () => {
 
   const [selectedEpi, setSelectedEpi] = useState<EPI>({} as EPI);
 
-  useEffect(() => {
-    async function fetchEpis() {
-      const { data } = await getEpis();
-      const episMapped = data.map((epi: EPI) => {
-        return { ...epi, status: epi.status ? 1 : 0 };
-      });
-      setEpis(episMapped);
-    }
+  async function fetchEpis() {
+    const { data } = await getEpis();
+    const episMapped = data.map((epi: EPI) => {
+      return { ...epi, status: epi.status ? 1 : 0 };
+    });
+    setEpis(episMapped);
+  }
 
+  useEffect(() => {
     fetchEpis();
   }, []);
 
@@ -64,7 +64,11 @@ const EPIs: React.FC = () => {
         />
       </SideInfoPanel>
 
-      <Form title="Adicionar um EPI" epiSelected={selectedEpi} />
+      <Form
+        title="Adicionar um EPI"
+        epiSelected={selectedEpi}
+        onSave={() => fetchEpis()}
+      />
     </Container>
   );
 };

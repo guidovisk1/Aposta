@@ -36,9 +36,10 @@ interface EPI {
 interface FormProps {
   title: string;
   epiSelected?: EPI;
+  onSave: () => void;
 }
 
-const Form: React.FC<FormProps> = ({ title, epiSelected }) => {
+const Form: React.FC<FormProps> = ({ title, epiSelected, onSave }) => {
   const isEpiSelected = Object.keys(epiSelected || {});
   const code = v4();
 
@@ -89,7 +90,10 @@ const Form: React.FC<FormProps> = ({ title, epiSelected }) => {
 
         if (isEpiSelected.length) {
           return updateEpi(epiAux?.cod_epi || '', formData)
-            .then(() => swalSuccess('EPI editado com sucesso!'))
+            .then(() => {
+              swalSuccess('EPI editado com sucesso!');
+              onSave();
+            })
             .catch(() =>
               swalError(
                 'Um erro ocorreu na edição do EPI. Revise as informações e tente novamente',
@@ -99,7 +103,10 @@ const Form: React.FC<FormProps> = ({ title, epiSelected }) => {
 
         formData.append('cod_epi', code);
         return createEpi(formData)
-          .then(() => swalSuccess('ferramenta criada com sucesso!'))
+          .then(() => {
+            swalSuccess('ferramenta criada com sucesso!');
+            onSave();
+          })
           .catch(() =>
             swalError(
               'Um erro ocorreu na criação do EPI. Revise as informações e tente novamente',

@@ -28,14 +28,15 @@ const Users: React.FC = () => {
   const [searchedUsers, setSearchedUsers] = useState<User[]>([] as User[]);
   const [selecteduser, setSelecteduser] = useState<User>({} as User);
 
+  const getAllUsers = async () => {
+    const { data } = await getUsers();
+    const dataMapped = data.map((user: User) => {
+      return { ...user, status: user.status ? 1 : 0 };
+    });
+    setUsers(dataMapped);
+  };
+
   useEffect(() => {
-    const getAllUsers = async () => {
-      const { data } = await getUsers();
-      const dataMapped = data.map((user: User) => {
-        return { ...user, status: user.status ? 1 : 0 };
-      });
-      setUsers(dataMapped);
-    };
     getAllUsers();
   }, []);
 
@@ -71,7 +72,11 @@ const Users: React.FC = () => {
         )}
       </SideInfoPanel>
 
-      <Form userSelected={selecteduser} title="Adicionar um Usuário" />
+      <Form
+        userSelected={selecteduser}
+        title="Adicionar um Usuário"
+        onSave={() => getAllUsers()}
+      />
     </Container>
   );
 };

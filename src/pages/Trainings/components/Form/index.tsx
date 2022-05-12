@@ -29,9 +29,10 @@ interface Training {
 interface FormProps {
   title: string;
   trainingSelected?: Training;
+  onSave: () => void;
 }
 
-const Form: React.FC<FormProps> = ({ title, trainingSelected }) => {
+const Form: React.FC<FormProps> = ({ title, trainingSelected, onSave }) => {
   const isTrainingSelected = Object.keys(trainingSelected || {});
   const code = v4();
 
@@ -75,7 +76,10 @@ const Form: React.FC<FormProps> = ({ title, trainingSelected }) => {
             cod_treinamento: trainingSelected?.cod_treinamento || '',
             status: values.status === 1,
           })
-            .then(() => swalSuccess('Treinamento editado com sucesso!'))
+            .then(() => {
+              swalSuccess('Treinamento editado com sucesso!');
+              onSave();
+            })
             .catch(() =>
               swalError(
                 'Um erro ocorreu na edição do treinamento. Revise as informações e tente novamente',
@@ -88,7 +92,10 @@ const Form: React.FC<FormProps> = ({ title, trainingSelected }) => {
           status: values.status === 1,
           cod_treinamento: code,
         })
-          .then(() => swalSuccess('Treinamento criado com sucesso!'))
+          .then(() => {
+            swalSuccess('Treinamento criado com sucesso!');
+            onSave();
+          })
           .catch(() =>
             swalError(
               'Um erro ocorreu na criação do Treinamento. Revise as informações e tente novamente',

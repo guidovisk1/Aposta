@@ -61,9 +61,14 @@ interface MaintananceRequest {
 interface FormProps {
   title: string;
   maintananceRequestSelected?: MaintananceRequest;
+  onSave: () => void;
 }
 
-const Form: React.FC<FormProps> = ({ title, maintananceRequestSelected }) => {
+const Form: React.FC<FormProps> = ({
+  title,
+  maintananceRequestSelected,
+  onSave,
+}) => {
   const isMaintananceRequestsSelected = Object.keys(
     maintananceRequestSelected || {},
   );
@@ -182,7 +187,10 @@ const Form: React.FC<FormProps> = ({ title, maintananceRequestSelected }) => {
               data_fim: values.data_fim,
             },
           )
-            .then(() => swalSuccess('Ordem editada com sucesso'))
+            .then(() => {
+              swalSuccess('Ordem editada com sucesso');
+              onSave();
+            })
             .catch(() =>
               swalError('Algo deu errado! Ordem não pode ser editado'),
             );
@@ -192,7 +200,10 @@ const Form: React.FC<FormProps> = ({ title, maintananceRequestSelected }) => {
           cod_ordemDeManutencao: code,
           status: Boolean(values.status),
         })
-          .then(() => swalSuccess('Ordem criada com sucesso!'))
+          .then(() => {
+            swalSuccess('Ordem criada com sucesso!');
+            onSave();
+          })
           .catch(() =>
             swalError(
               'Algo deu errado. Revise as informações e tente novamente',

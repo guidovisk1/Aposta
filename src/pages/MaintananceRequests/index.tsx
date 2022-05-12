@@ -40,12 +40,12 @@ const MaintananceRequests: React.FC = () => {
   const [selectedMaintanance, setSelectedMaintanance] =
     useState<MaintananceRequest>({} as MaintananceRequest);
 
-  useEffect(() => {
-    async function fetchMaintananceRequests() {
-      const { data } = await getMaintananceRequests();
-      setMaintananceRequest(data);
-    }
+  async function fetchMaintananceRequests() {
+    const { data } = await getMaintananceRequests();
+    setMaintananceRequest(data);
+  }
 
+  useEffect(() => {
     fetchMaintananceRequests();
   }, []);
 
@@ -83,6 +83,7 @@ const MaintananceRequests: React.FC = () => {
       <Form
         title="Adicionar uma Ordem de Manutenção"
         maintananceRequestSelected={selectedMaintanance}
+        onSave={() => fetchMaintananceRequests()}
       />
     </Container>
   );

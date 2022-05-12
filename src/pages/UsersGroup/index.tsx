@@ -25,16 +25,15 @@ const UserGroup: React.FC = () => {
   const [selectedTraining, setSelectedUserGroup] = useState<IUserGroup>(
     {} as IUserGroup,
   );
+  async function fetchuserGroup() {
+    const { data } = await getUserGroups();
+    const userGroupMapped = data.map((userGroup: IUserGroup) => {
+      return { ...userGroup, status: userGroup.status ? 1 : 0 };
+    });
+    setuserGroup(userGroupMapped);
+  }
 
   useEffect(() => {
-    async function fetchuserGroup() {
-      const { data } = await getUserGroups();
-      const userGroupMapped = data.map((userGroup: IUserGroup) => {
-        return { ...userGroup, status: userGroup.status ? 1 : 0 };
-      });
-      setuserGroup(userGroupMapped);
-    }
-
     fetchuserGroup();
   }, []);
 
@@ -72,6 +71,7 @@ const UserGroup: React.FC = () => {
       <Form
         title="Adicionar um Grupo de Usuário"
         userGroupSelected={selectedTraining}
+        onSave={() => fetchuserGroup()}
       />
     </Container>
   );
