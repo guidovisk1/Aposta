@@ -393,14 +393,21 @@ const Form: React.FC<FormProps> = ({
               onBlur={handleBlur}
               placeholder="DD/MM/AAAA"
             />
-            <Input
-              name="situacao"
+
+            <SelectInput
+              options={[
+                { label: 'Não iniciada', id: 0 },
+                { label: 'Em execução', id: 1 },
+                { label: 'Atrasada', id: 2 },
+                { label: 'Concluída', id: 3 },
+              ]}
               width="160px"
+              consideredValue="id"
+              name="situacao"
               labelText="Situação Aprovação"
               value={values.situacao}
               onChange={handleChange}
               onBlur={handleBlur}
-              placeholder="Informe"
             />
           </InputsWrapper>
 
