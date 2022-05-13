@@ -19,3 +19,7 @@ export const updateEquipment = (
 ) => {
   return api.put(`${endpoints.EQUIPMENT.GET_ALL}/${cod_equipamento}`, formData);
 };
+
+export const getOneEqupment = (cod_equipamento: string) => {
+  return api.get(`${endpoints.EQUIPMENT.GET_ALL}/${cod_equipamento}`);
+};

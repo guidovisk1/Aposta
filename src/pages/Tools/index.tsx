@@ -4,7 +4,7 @@ import { Container } from './styles';
 
 import SideInfoPanel from '../../components/SideInfoPanel';
 
-import { getTools } from '../../services/tools.service';
+import { getTools, getOneTool } from '../../services/tools.service';
 
 import ListItem from './components/ListItem';
 import Form from './components/Form';
@@ -35,8 +35,14 @@ const Tools: React.FC = () => {
     getAllTool();
   }, []);
 
+  const fetchSelectedTool = (codTool: string) => {
+    return getOneTool(codTool).then(({ data }) => {
+      setSelectedTool(data);
+    });
+  };
+
   function handleToolSelection(selected: Tool) {
-    setSelectedTool(selected);
+    fetchSelectedTool(selected.cod_ferramenta);
   }
 
   function openForm() {

@@ -4,7 +4,7 @@ import { Container } from './styles';
 
 import SideInfoPanel from '../../components/SideInfoPanel';
 
-import { getEpis } from '../../services/epis.service';
+import { getEpis, getOneEpi } from '../../services/epis.service';
 
 import ListItem from './components/ListItem';
 import Form from './components/Form';
@@ -35,8 +35,14 @@ const EPIs: React.FC = () => {
     fetchEpis();
   }, []);
 
+  const fetchSelectedEpi = (codEpi: string) => {
+    return getOneEpi(codEpi).then(({ data }) => {
+      setSelectedEpi(data);
+    });
+  };
+
   function handleEpiSelection(selected: EPI) {
-    setSelectedEpi(selected);
+    fetchSelectedEpi(selected.cod_epi);
   }
 
   function openForm() {

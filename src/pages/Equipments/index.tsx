@@ -3,7 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { Container } from './styles';
 
 import SideInfoPanel from '../../components/SideInfoPanel';
-import { getEquipments } from '../../services/equipments.service';
+import {
+  getEquipments,
+  getOneEqupment,
+} from '../../services/equipments.service';
 import Form from './components/Form';
 
 import ListItem from './components/ListItem';
@@ -53,8 +56,14 @@ const Equipments: React.FC = () => {
     fetchEquips();
   }, []);
 
+  const fetchSelectedEquip = (codEquip: string) => {
+    return getOneEqupment(codEquip).then(({ data }) => {
+      setSelectedEquipment(data);
+    });
+  };
+
   function handleUserSelection(selected: Equipament) {
-    setSelectedEquipment(selected);
+    fetchSelectedEquip(selected.cod_equipamento);
   }
 
   function openForm() {

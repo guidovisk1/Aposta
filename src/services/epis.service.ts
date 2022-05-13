@@ -14,5 +14,10 @@ export const createEpi = (formData: EPI) => {
 };
 
 export const updateEpi = (cod_epi: string, formData: EPI) => {
+  console.log(formData.get('imagem'), 'Testing out');
   return api.put(`${endpoints.EPI.GET_ALL}/${cod_epi}`, formData);
+};
+
+export const getOneEpi = (cod_epi: string) => {
+  return api.get(`${endpoints.EPI.GET_ALL}/${cod_epi}`);
 };

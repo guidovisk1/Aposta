@@ -16,3 +16,7 @@ export const createTool = (formData: Tool) => {
 export const updateTool = (codFerramenta: string, formData: Tool) => {
   return api.put(`${endpoints.TOOL.GET_ALL}/${codFerramenta}`, formData);
 };
+
+export const getOneTool = (codFerramenta: string) => {
+  return api.get(`${endpoints.TOOL.GET_ALL}/${codFerramenta}`);
+};
