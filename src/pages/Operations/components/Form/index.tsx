@@ -231,7 +231,7 @@ const Form: React.FC<FormProps> = ({ title, operationSelected, onSave }) => {
           <InputsWrapper>
             <Input
               name="descricao"
-              width="302px"
+              width="100%"
               labelText="DESCRIÇÃO*"
               hasError={
                 !!errors.descricao && touched.descricao && !!errors.descricao
@@ -241,20 +241,6 @@ const Form: React.FC<FormProps> = ({ title, operationSelected, onSave }) => {
               onChange={handleChange}
               onBlur={handleBlur}
               placeholder="Insira a descrição do Treinamento"
-            />
-
-            <SelectInput
-              options={[
-                { label: 'Ativado', id: 1 },
-                { label: 'Inativado', id: 0 },
-              ]}
-              consideredValue="id"
-              width="202px"
-              name="status"
-              labelText="STATUS*"
-              value={values.status}
-              onChange={handleChange}
-              onBlur={handleBlur}
             />
           </InputsWrapper>
 
