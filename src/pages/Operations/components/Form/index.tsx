@@ -141,6 +141,8 @@ const Form: React.FC<FormProps> = ({ title, operationSelected, onSave }) => {
         const pdf = (values?.pdf as any)[0];
         const imagem = (values?.imagem as any)[0];
 
+        console.log(values.imagem);
+
         let toolsString = '';
         values.ferramentas.forEach((tool: any) => {
           toolsString += `${tool}/`;
@@ -340,7 +342,6 @@ const Form: React.FC<FormProps> = ({ title, operationSelected, onSave }) => {
               labelText="IMAGEM"
               iconName="image"
               id="imagem-input"
-              accept="image/*"
               fileName={imageName}
               onChange={e => {
                 if (e.currentTarget.files![0].size > 5519364) {
