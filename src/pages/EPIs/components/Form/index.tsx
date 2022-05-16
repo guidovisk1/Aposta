@@ -37,9 +37,15 @@ interface FormProps {
   title: string;
   epiSelected?: EPI;
   onSave: () => void;
+  handleImg: (imgString: string) => void;
 }
 
-const Form: React.FC<FormProps> = ({ title, epiSelected, onSave }) => {
+const Form: React.FC<FormProps> = ({
+  title,
+  epiSelected,
+  onSave,
+  handleImg,
+}) => {
   const isEpiSelected = Object.keys(epiSelected || {});
   const code = v4();
   let fileName = '';
@@ -187,6 +193,18 @@ const Form: React.FC<FormProps> = ({ title, epiSelected, onSave }) => {
               type="file"
             />
           </ContainerInputFile>
+
+          {epiSelected?.imagem && (
+            <a
+              onClick={e => {
+                e.preventDefault();
+                handleImg(epiSelected.imagem || '');
+              }}
+              href=""
+            >
+              Visualizar imagem
+            </a>
+          )}
 
           <ButtonWrapper>
             <Button type="submit" full disabled={isSubmitting}>

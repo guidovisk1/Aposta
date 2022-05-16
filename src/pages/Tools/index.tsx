@@ -8,6 +8,7 @@ import { getTools, getOneTool } from '../../services/tools.service';
 
 import ListItem from './components/ListItem';
 import Form from './components/Form';
+import ImagePreview from '../../components/ImagePreview';
 
 interface Tool {
   cod_ferramenta: string;
@@ -35,6 +36,16 @@ const Tools: React.FC = () => {
     getAllTool();
   }, []);
 
+  const [url, setUrl] = useState('');
+
+  async function handleImg(imgString: string) {
+    const base64Response = await fetch(`data:image/jpeg;base64,${imgString}`);
+
+    const blob = await base64Response.blob();
+
+    return URL.createObjectURL(blob);
+  }
+
   const fetchSelectedTool = (codTool: string) => {
     return getOneTool(codTool).then(({ data }) => {
       setSelectedTool(data);
@@ -61,23 +72,34 @@ const Tools: React.FC = () => {
   }
 
   return (
-    <Container className="page-container">
-      <SideInfoPanel
-        title="Ferram..."
-        onSearch={(searchedValue: string) => onSearch(searchedValue)}
-        openForm={() => openForm()}
-      >
-        <ListItem
-          list={searchedTool.length ? searchedTool : tools}
-          onClicked={item => handleToolSelection(item)}
+    <>
+      {url && (
+        <ImagePreview
+          name="Mona Liza"
+          code="DAVINCI"
+          imgUrl={url}
+          onClose={() => setUrl('')}
         />
-      </SideInfoPanel>
-      <Form
-        title="Adicionar uma Ferramenta"
-        toolSelected={selectedTool}
-        onSave={() => getAllTool()}
-      />
-    </Container>
+      )}
+      <Container className="page-container">
+        <SideInfoPanel
+          title="Ferram..."
+          onSearch={(searchedValue: string) => onSearch(searchedValue)}
+          openForm={() => openForm()}
+        >
+          <ListItem
+            list={searchedTool.length ? searchedTool : tools}
+            onClicked={item => handleToolSelection(item)}
+          />
+        </SideInfoPanel>
+        <Form
+          title="Adicionar uma Ferramenta"
+          toolSelected={selectedTool}
+          onSave={() => getAllTool()}
+          handleImg={async imgString => setUrl(await handleImg(imgString))}
+        />
+      </Container>
+    </>
   );
 };
 

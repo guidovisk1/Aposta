@@ -37,9 +37,15 @@ interface FormProps {
   title: string;
   toolSelected?: Tool;
   onSave: () => void;
+  handleImg: (imgString: string) => void;
 }
 
-const Form: React.FC<FormProps> = ({ title, toolSelected, onSave }) => {
+const Form: React.FC<FormProps> = ({
+  title,
+  toolSelected,
+  onSave,
+  handleImg,
+}) => {
   const isToolSelected = Object.keys(toolSelected || {});
   const code = v4();
   let fileName = '';
@@ -182,6 +188,18 @@ const Form: React.FC<FormProps> = ({ title, toolSelected, onSave }) => {
               type="file"
             />
           </ContainerInputFile>
+
+          {toolSelected?.imagem && (
+            <a
+              onClick={e => {
+                e.preventDefault();
+                handleImg(toolSelected.imagem || '');
+              }}
+              href=""
+            >
+              Visualizar imagem
+            </a>
+          )}
 
           <ButtonWrapper>
             <Button type="submit" full disabled={isSubmitting}>

@@ -9,6 +9,8 @@ import { getEpis, getOneEpi } from '../../services/epis.service';
 import ListItem from './components/ListItem';
 import Form from './components/Form';
 
+import ImagePreview from '../../components/ImagePreview';
+
 interface EPI {
   cod_epi: string;
   descricao: string;
@@ -35,6 +37,16 @@ const EPIs: React.FC = () => {
     fetchEpis();
   }, []);
 
+  const [url, setUrl] = useState('');
+
+  async function handleImg(imgString: string) {
+    const base64Response = await fetch(`data:image/jpeg;base64,${imgString}`);
+
+    const blob = await base64Response.blob();
+
+    return URL.createObjectURL(blob);
+  }
+
   const fetchSelectedEpi = (codEpi: string) => {
     return getOneEpi(codEpi).then(({ data }) => {
       setSelectedEpi(data);
@@ -58,24 +70,35 @@ const EPIs: React.FC = () => {
     );
   }
   return (
-    <Container className="page-container">
-      <SideInfoPanel
-        title="EPIs"
-        onSearch={searched => onSearch(searched)}
-        openForm={() => openForm()}
-      >
-        <ListItem
-          list={searchedEpi.length ? searchedEpi : epis}
-          onClicked={epi => handleEpiSelection(epi)}
+    <>
+      {url && (
+        <ImagePreview
+          name="Mona Liza"
+          code="DAVINCI"
+          imgUrl={url}
+          onClose={() => setUrl('')}
         />
-      </SideInfoPanel>
+      )}
+      <Container className="page-container">
+        <SideInfoPanel
+          title="EPIs"
+          onSearch={searched => onSearch(searched)}
+          openForm={() => openForm()}
+        >
+          <ListItem
+            list={searchedEpi.length ? searchedEpi : epis}
+            onClicked={epi => handleEpiSelection(epi)}
+          />
+        </SideInfoPanel>
 
-      <Form
-        title="Adicionar um EPI"
-        epiSelected={selectedEpi}
-        onSave={() => fetchEpis()}
-      />
-    </Container>
+        <Form
+          title="Adicionar um EPI"
+          epiSelected={selectedEpi}
+          onSave={() => fetchEpis()}
+          handleImg={async imgString => setUrl(await handleImg(imgString))}
+        />
+      </Container>
+    </>
   );
 };
 
