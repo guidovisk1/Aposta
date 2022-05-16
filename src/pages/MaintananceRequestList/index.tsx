@@ -13,10 +13,10 @@ import Button from '../../components/Button';
 const MaintananceRequestList: React.FC = () => {
   const history = useHistory();
   const situations = [
-    { label: 'Em Execução', value: 'EmExecucao' },
-    { label: 'NaoIniciada', value: 'Não Iniciada' },
-    { label: 'Atrasada', value: 'Atrasada' },
-    { label: 'Concluída', value: 'Concluída' },
+    { label: 'Em Execução', value: '1' },
+    { label: 'Não Iniciada', value: '0' },
+    { label: 'Atrasada', value: '2' },
+    { label: 'Concluída', value: '3' },
   ];
 
   const getDate = (date: string) => {
@@ -74,7 +74,8 @@ const MaintananceRequestList: React.FC = () => {
       headerAlign: 'center',
       align: 'center',
       renderCell: prop => {
-        return <p>{situations.find(s => s.value === prop.value)?.label}</p>;
+        // eslint-disable-next-line eqeqeq
+        return <p>{situations.find(s => s.value == prop.value)?.label}</p>;
       },
     },
     {
@@ -88,7 +89,8 @@ const MaintananceRequestList: React.FC = () => {
       renderCell: prop => {
         return (
           <Button
-            disabled={prop.value !== 'Pendente'}
+            // eslint-disable-next-line eqeqeq
+            disabled={prop.value !== 2}
             width="138px"
             height="33px"
             onClick={() =>
@@ -97,7 +99,7 @@ const MaintananceRequestList: React.FC = () => {
               )
             }
           >
-            {prop.value === 'Pendente' ? 'Aprovar' : prop.value}
+            {prop.value === 2 ? 'Aprovar' : prop.value}
           </Button>
         );
       },

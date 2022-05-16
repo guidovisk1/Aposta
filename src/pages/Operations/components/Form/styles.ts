@@ -58,6 +58,7 @@ export const Label = styled.span`
 export const InputsWrapper = styled.div<InputsWrapperProps>`
   display: flex;
   justify-content: space-between;
+  align-items: end;
 
   flex-direction: ${props => (props.column ? 'column' : 'row')};
   margin-top: 14px;

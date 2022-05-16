@@ -140,12 +140,12 @@ const Form: React.FC<FormProps> = ({
       initialValues={{
         descricao: '',
         status: 1,
-        cod_equipamento: '',
-
         tipo: '1',
         aprovacao_usuario: '',
         aprovacao_situacao: 1,
         ...maintananceRequestAux,
+        cod_equipamento:
+          (maintananceRequestAux as any)?.equipamento?.cod_equipamento || '',
         gruposUsuarioIds:
           (maintananceRequestAux as any)?.gruposUsuario?.map(
             (gp: any) => gp.cod_grupoUsuarios,

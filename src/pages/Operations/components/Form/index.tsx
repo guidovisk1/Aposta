@@ -342,6 +342,7 @@ const Form: React.FC<FormProps> = ({ title, operationSelected, onSave }) => {
               labelText="IMAGEM"
               iconName="image"
               id="imagem-input"
+              className="imagem-input"
               fileName={imageName}
               onChange={e => {
                 if (e.currentTarget.files![0].size > 5519364) {
@@ -377,6 +378,7 @@ const Form: React.FC<FormProps> = ({ title, operationSelected, onSave }) => {
                 return setPdfName(e.currentTarget?.files![0].name);
               }}
             />
+
             <Input
               name="video"
               labelText="VIDEO"
