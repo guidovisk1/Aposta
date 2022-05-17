@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { getOneUser } from '../../../../services/user.service';
 
 import {
   Container,
@@ -33,16 +35,24 @@ interface MaintananceRequest {
   status: number;
 }
 
-const RequestCard: React.FC<Partial<MaintananceRequest>> = ({
+const RequestCard: React.FC<Partial<MaintananceRequest | any>> = ({
   cod_ordemDeManutencao,
-  cod_equipamento,
-  gruposUsuario,
   data_prazo,
   aprovacao_usuario,
   descricao,
   data_ordem,
   urgencia,
+  equipamento,
+  gruposUsuario,
 }) => {
+  const [usuarioAprovador, setUsuarioAprovador] = useState('');
+
+  useEffect(() => {
+    getOneUser(aprovacao_usuario).then(response => {
+      setUsuarioAprovador(response.data.nome);
+    });
+  });
+
   return (
     <Container>
       <HeaderContainer>
@@ -54,12 +64,14 @@ const RequestCard: React.FC<Partial<MaintananceRequest>> = ({
       <Row>
         <PropertiesWrapper>
           <Property>EQUIPAMENTO</Property>
-          <Value>Máquina de Solda</Value>
+          <Value>{equipamento.descricao}</Value>
         </PropertiesWrapper>
 
         <PropertiesWrapper>
           <Property>GRUPO DE USUÁRIOS</Property>
-          <Value>Máquina de Solda</Value>
+          {gruposUsuario.map((grupo: any) => (
+            <Value key={grupo.id}>{grupo.descricao}</Value>
+          ))}
         </PropertiesWrapper>
       </Row>
 
@@ -83,7 +95,7 @@ const RequestCard: React.FC<Partial<MaintananceRequest>> = ({
 
         <PropertiesWrapper>
           <Property>APROVADOR</Property>
-          <Value>Fabiano</Value>
+          <Value>{usuarioAprovador}</Value>
         </PropertiesWrapper>
       </Row>
     </Container>

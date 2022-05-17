@@ -141,8 +141,6 @@ const Form: React.FC<FormProps> = ({ title, operationSelected, onSave }) => {
         const pdf = (values?.pdf as any)[0];
         const imagem = (values?.imagem as any)[0];
 
-        console.log(values.imagem);
-
         let toolsString = '';
         values.ferramentas.forEach((tool: any) => {
           toolsString += `${tool}/`;
@@ -163,17 +161,6 @@ const Form: React.FC<FormProps> = ({ title, operationSelected, onSave }) => {
         if (pdf) formData.append('pdfFile', pdf);
         if (imagem) formData.append('imagemFile', imagem);
 
-        if (values.tipoMedicao === 'OCR') {
-          formData.append('ocr', 'true');
-          formData.append('ocrParametro', String(values.medicaoParametro));
-        } else if (values.tipoMedicao === 'QRCODE') {
-          formData.append('qrcode', 'true');
-          formData.append('qrcodeParametro', String(values.medicaoParametro));
-        } else if (values.tipoMedicao === 'MEDICAO') {
-          formData.append('medicao', 'true');
-          formData.append('medicaoParametro', String(values.medicaoParametro));
-        }
-
         formData.append('descricao', values.descricao);
         formData.append(
           'status',
@@ -189,6 +176,8 @@ const Form: React.FC<FormProps> = ({ title, operationSelected, onSave }) => {
         formData.append('ferramentasIds', toolsString.replace(/\/$/, ''));
         formData.append('treinamentosIds', trainingsString.replace(/\/$/, ''));
         formData.append('episIds', episString.replace(/\/$/, ''));
+        formData.append('tipoLeitura', values.tipoMedicao);
+        formData.append('parametroLeitura', values.medicaoParametro);
 
         if (isOperationSelected.length) {
           return updateOperation(values.cod_operacao || '', formData)
@@ -393,9 +382,10 @@ const Form: React.FC<FormProps> = ({ title, operationSelected, onSave }) => {
           <InputsWrapper>
             <SelectInput
               options={[
-                { label: 'OCR', id: 0 },
-                { label: 'QRCODE', id: 1 },
-                { label: 'MEDIÇÃO', id: 2 },
+                { label: 'Sem Leitura', id: 0 },
+                { label: 'OCR', id: 1 },
+                { label: 'QRCODE', id: 2 },
+                { label: 'MEDIÇÃO', id: 3 },
               ]}
               width="255px"
               name="tipoMedicao"

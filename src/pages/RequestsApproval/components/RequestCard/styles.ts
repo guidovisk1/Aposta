@@ -61,6 +61,10 @@ export const Property = styled.span`
   line-height: 18px;
   letter-spacing: 1.8px;
   color: #888888;
+  max-width: 145px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const Value = styled.span`
@@ -70,4 +74,8 @@ export const Value = styled.span`
   line-height: 18px;
   letter-spacing: 1.2999999523162842px;
   color: #525252;
+  max-width: 145px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
