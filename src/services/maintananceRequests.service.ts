@@ -25,3 +25,14 @@ export const updateMaintananceRequests = (
     data,
   );
 };
+
+export const approveOrReject = (
+  cod_ordemDeManutencao: string,
+  id_user: string,
+  data: any,
+) => {
+  return api.put(
+    `${endpoints.MAINTANANCEREQUESTS.GET_ALL}/${cod_ordemDeManutencao}/${id_user}/approve`,
+    data,
+  );
+};

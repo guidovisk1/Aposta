@@ -19,6 +19,20 @@ const MaintananceRequestList: React.FC = () => {
     { label: 'Concluída', value: '3' },
   ];
 
+  const approvationSituations = (value: string) => {
+    switch (String(value)) {
+      case '0':
+        return 'Recusada';
+      case '1':
+        return 'Aprovada';
+      case '2':
+        return 'Pendente';
+
+      default:
+        return 'Não Definido';
+    }
+  };
+
   const getDate = (date: string) => {
     return new Date(date).toLocaleDateString('pt-BR');
   };
@@ -99,7 +113,7 @@ const MaintananceRequestList: React.FC = () => {
               )
             }
           >
-            {prop.value === 2 ? 'Aprovar' : prop.value}
+            {prop.value === 2 ? 'Aprovar' : approvationSituations(prop.value)}
           </Button>
         );
       },

@@ -44,6 +44,7 @@ const RequestCard: React.FC<Partial<MaintananceRequest | any>> = ({
   urgencia,
   equipamento,
   gruposUsuario,
+  tipo,
 }) => {
   const [usuarioAprovador, setUsuarioAprovador] = useState('');
 
@@ -52,6 +53,19 @@ const RequestCard: React.FC<Partial<MaintananceRequest | any>> = ({
       setUsuarioAprovador(response.data.nome);
     });
   });
+
+  const typeTranslator = (type: string) => {
+    switch (type) {
+      case '0':
+        return 'Inspeção';
+      case '1':
+        return 'Manutenção Preventiva';
+      case '2':
+        return 'Manutenção Corretiva';
+      default:
+        return 'Não Definido';
+    }
+  };
 
   return (
     <Container>
@@ -64,12 +78,12 @@ const RequestCard: React.FC<Partial<MaintananceRequest | any>> = ({
       <Row>
         <PropertiesWrapper>
           <Property>EQUIPAMENTO</Property>
-          <Value>{equipamento.descricao}</Value>
+          <Value>{equipamento?.descricao}</Value>
         </PropertiesWrapper>
 
         <PropertiesWrapper>
           <Property>GRUPO DE USUÁRIOS</Property>
-          {gruposUsuario.map((grupo: any) => (
+          {gruposUsuario?.map((grupo: any) => (
             <Value key={grupo.id}>{grupo.descricao}</Value>
           ))}
         </PropertiesWrapper>
@@ -78,7 +92,7 @@ const RequestCard: React.FC<Partial<MaintananceRequest | any>> = ({
       <Row>
         <PropertiesWrapper>
           <Property>TIPO</Property>
-          <Value>Ordem tipo 231</Value>
+          <Value>{tipo && typeTranslator(tipo || '')}</Value>
         </PropertiesWrapper>
 
         <PropertiesWrapper>

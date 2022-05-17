@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from 'react';
 
+import Swal from 'sweetalert2';
+
 import { useParams, useHistory } from 'react-router-dom';
+import { useAuth } from '../../hooks/Auth/auth';
 import { Container, Wrapper, ButtonsWrapper, OrderHeaderTitle } from './styles';
+
+import {
+  approveOrReject,
+  getById,
+} from '../../services/maintananceRequests.service';
 
 import RequestCard from './components/RequestCard';
 import OperationCard from './components/OperationCard';
 import Button from '../../components/Button';
-
-import { getById } from '../../services/maintananceRequests.service';
 
 interface Params {
   id: string;
@@ -16,12 +22,66 @@ interface Params {
 const RequestsApproval: React.FC = () => {
   const params: Params = useParams();
   const history = useHistory();
+  const auth = useAuth();
 
   const [request, setRequest] = useState<any>({} as any);
 
   useEffect(() => {
     getById(params.id).then(({ data }) => setRequest(data));
   }, []);
+
+  const handleApproveOrReject = (value: string) => {
+    if (value === 'aprovar') {
+      const data = {
+        aprovacao_usuario: auth.user.cod_usuario,
+        aprovacao_situacao: 1,
+        aprovacao_data: new Date().toISOString(),
+      };
+      approveOrReject(
+        request.cod_ordemDeManutencao,
+        auth.user.cod_usuario,
+        data,
+      ).then(async () => {
+        await Swal.fire({
+          title: 'Tudo Certo!',
+          text: 'Ordem aprovada com sucesso!',
+          icon: 'success',
+          confirmButtonColor: '#FF5427',
+        });
+        history.push('/dashboard/consulta-ordens-manutencao');
+      });
+    } else {
+      const data = {
+        aprovacao_usuario: auth.user.cod_usuario,
+        aprovacao_situacao: 0,
+        aprovacao_data: new Date().toISOString(),
+      };
+      approveOrReject(
+        request.cod_ordemDeManutencao,
+        auth.user.cod_usuario,
+        data,
+      )
+        .then(async () => {
+          await Swal.fire({
+            title: 'Tudo Certo!',
+            text: 'Ordem rejeitada com sucesso!',
+            icon: 'success',
+            allowOutsideClick: false,
+            confirmButtonColor: '#FF5427',
+          });
+          history.push('/dashboard/consulta-ordens-manutencao');
+        })
+        .catch(() => {
+          return Swal.fire({
+            title: 'Algo deu errado!',
+            text: 'Não foi possível aprovar/rejeitar a ordem. Tente novamente.',
+            icon: 'error',
+            allowOutsideClick: false,
+            confirmButtonColor: '#FF5427',
+          });
+        });
+    }
+  };
 
   return (
     <Container className="page-container">
@@ -37,10 +97,18 @@ const RequestsApproval: React.FC = () => {
           <OrderHeaderTitle>Ordem de Manutenção</OrderHeaderTitle>
           <RequestCard {...request} />
           <ButtonsWrapper>
-            <Button color="#fff" backgroundColor="#FF0000 !important">
+            <Button
+              onClick={() => handleApproveOrReject('rejeitar')}
+              color="#fff"
+              backgroundColor="#FF0000 !important"
+            >
               Rejeitar
             </Button>
-            <Button color="#fff" backgroundColor="#48BD2B !important ">
+            <Button
+              onClick={() => handleApproveOrReject('aprovar')}
+              color="#fff"
+              backgroundColor="#48BD2B !important "
+            >
               Aprovar
             </Button>
           </ButtonsWrapper>
