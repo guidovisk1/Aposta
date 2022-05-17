@@ -69,3 +69,7 @@ export const updateUser = (
     status,
   });
 };
+
+export const getOneUser = (id: string) => {
+  return api.get(`${endpoints.USERS.GET_ALL}/${id}`);
+};
