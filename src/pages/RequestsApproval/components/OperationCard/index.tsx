@@ -29,11 +29,11 @@ const OperationCard: React.FC<OperationCardProps> = ({
       <Row>
         <PropertiesWrapper>
           <Property>MEDIA (OCR, QRCODE OU MEDIÇÃO)</Property>
-          <Value>HP</Value>
+          <Value>{tipo_medida}</Value>
         </PropertiesWrapper>
         <PropertiesWrapper>
           <Property>RESULTADO</Property>
-          <Value>HP</Value>
+          <Value>{resultado || '-'}</Value>
         </PropertiesWrapper>
       </Row>
       <SuccessStatus success>

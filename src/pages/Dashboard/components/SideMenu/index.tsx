@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { useLocation } from 'react-router-dom';
+import { useAuth } from '../../../../hooks/Auth/auth';
 import { icons } from '../../../../utils/icons';
 
 import HambIcon from '../../../../assets/icons/hamburguer-menu.svg';
@@ -23,6 +24,7 @@ interface MenuOptions {
   icon: string;
   path: string;
   id: number;
+  role: string[];
 }
 
 interface SideMenuProps {
@@ -42,6 +44,8 @@ const SideMenu: React.FC<SideMenuProps> = ({
     return location.pathname.includes(path);
   };
 
+  const auth = useAuth();
+
   const renderOpenedMenu = () => {
     return (
       <ContainerOpened>
@@ -55,7 +59,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
         </MenuTitleOpenedWrapper>
 
         <MenuList>
-          {menuOptions.map(option => (
+          {/* {menuOptions.map(option => (
             <MenuItemOpened
               to={option.path}
               isActive={isMenuItemActive(option.path)}
@@ -64,7 +68,20 @@ const SideMenu: React.FC<SideMenuProps> = ({
               <img src={icons[option.icon]} alt={option.title} />
               <span>{option.title}</span>
             </MenuItemOpened>
-          ))}
+          ))} */}
+
+          {menuOptions
+            .filter(option => option.role.includes(auth.user.funcao))
+            .map(option => (
+              <MenuItemOpened
+                to={option.path}
+                isActive={isMenuItemActive(option.path)}
+                key={option.id}
+              >
+                <img src={icons[option.icon]} alt={option.title} />
+                <span>{option.title}</span>
+              </MenuItemOpened>
+            ))}
           <MenuItemOpened to="/dashboard">
             <img src={icons.gotItLarge} />
           </MenuItemOpened>
@@ -85,15 +102,17 @@ const SideMenu: React.FC<SideMenuProps> = ({
         </HamburguerMenuDiv>
 
         <MenuList>
-          {menuOptions.map(option => (
-            <MenuItem
-              to={option.path}
-              isActive={isMenuItemActive(option.path)}
-              key={option.id}
-            >
-              <img src={icons[option.icon]} alt={option.title} />
-            </MenuItem>
-          ))}
+          {menuOptions
+            .filter(option => option.role.includes(auth.user.funcao))
+            .map(option => (
+              <MenuItem
+                to={option.path}
+                isActive={isMenuItemActive(option.path)}
+                key={option.id}
+              >
+                <img src={icons[option.icon]} alt={option.title} />
+              </MenuItem>
+            ))}
           <MenuItem to="/dashboard">
             <img src={icons.gotIt} />
           </MenuItem>

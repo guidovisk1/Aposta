@@ -98,6 +98,10 @@ const RequestsApproval: React.FC = () => {
           <RequestCard {...request} />
           <ButtonsWrapper>
             <Button
+              disabled={
+                auth.user.funcao !== 'admin aprovador' &&
+                auth.user.funcao !== 'usuario aprovador'
+              }
               onClick={() => handleApproveOrReject('rejeitar')}
               color="#fff"
               backgroundColor="#FF0000 !important"
@@ -105,6 +109,10 @@ const RequestsApproval: React.FC = () => {
               Rejeitar
             </Button>
             <Button
+              disabled={
+                auth.user.funcao !== 'admin aprovador' &&
+                auth.user.funcao !== 'usuario aprovador'
+              }
               onClick={() => handleApproveOrReject('aprovar')}
               color="#fff"
               backgroundColor="#48BD2B !important "
@@ -133,8 +141,8 @@ const RequestsApproval: React.FC = () => {
                 <OperationCard
                   key={operation.cod_operacao}
                   descricao={operation.descricao}
-                  resultado="300px"
-                  tipo_medida="OCR"
+                  resultado={operation?.resultadoLeitura}
+                  tipo_medida={operation.parametroLeitura}
                 />
                 <br />
               </>

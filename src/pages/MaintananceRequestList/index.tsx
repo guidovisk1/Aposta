@@ -33,6 +33,26 @@ const MaintananceRequestList: React.FC = () => {
     }
   };
 
+  const backgroundColorTranslate = (value: string) => {
+    if (
+      approvationSituations(value) === 'Aprovada' ||
+      approvationSituations(value) === 'Recusada'
+    ) {
+      return '#fff';
+    }
+    return '';
+  };
+
+  const colorTranslate = (value: string) => {
+    if (approvationSituations(value) === 'Recusada') {
+      return '#FF5427';
+    }
+    if (approvationSituations(value) === 'Aprovada') {
+      return '#548235';
+    }
+    return '#fff';
+  };
+
   const getDate = (date: string) => {
     return new Date(date).toLocaleDateString('pt-BR');
   };
@@ -103,7 +123,9 @@ const MaintananceRequestList: React.FC = () => {
       renderCell: prop => {
         return (
           <Button
-            // eslint-disable-next-line eqeqeq
+            style={{
+              color: colorTranslate(prop.value),
+            }}
             disabled={prop.value !== 2}
             width="138px"
             height="33px"
