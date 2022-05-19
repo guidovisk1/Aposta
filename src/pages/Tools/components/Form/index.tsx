@@ -89,7 +89,7 @@ const Form: React.FC<FormProps> = ({
 
         const formData = new FormData();
 
-        formData.append('imagem', file);
+        formData.append('imagemFile', file);
         formData.append('descricao', values.descricao);
         formData.append(
           'status',

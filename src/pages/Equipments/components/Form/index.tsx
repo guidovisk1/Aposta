@@ -91,7 +91,7 @@ const Form: React.FC<FormProps> = ({
         );
 
         if (file) {
-          formData.append('imagem', file);
+          formData.append('imagemFile', file);
         }
 
         if (isEquipmentSelected.length) {

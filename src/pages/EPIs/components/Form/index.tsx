@@ -96,7 +96,7 @@ const Form: React.FC<FormProps> = ({
         const imgFile = (values.imagem as any)[0];
 
         if (imgFile) {
-          formData.append('imagem', imgFile);
+          formData.append('imagemFile', imgFile);
         }
 
         if (isEpiSelected.length) {
