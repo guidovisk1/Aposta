@@ -179,12 +179,12 @@ const Form: React.FC<FormProps> = ({
               gruposUsuarioIds: values.gruposUsuarioIds,
               tipo: values.tipo,
               operacoesIds: values.operacoesIds,
-              data_ordem: values.data_ordem,
-              data_prazo: values.data_prazo,
-              aprovacao_usuario: values.aprovacao_usuario,
+              data_ordem: values.data_ordem || null,
+              data_prazo: values.data_prazo || null,
+              aprovacao_usuario: values.aprovacao_usuario || null,
               aprovacao_situacao: values.aprovacao_situacao,
-              data_inicio: values.data_inicio,
-              data_fim: values.data_fim,
+              data_inicio: values.data_inicio || null,
+              data_fim: values.data_fim || null,
             },
           )
             .then(() => {
@@ -197,6 +197,10 @@ const Form: React.FC<FormProps> = ({
         }
         return createMaintananceRequests({
           ...values,
+          data_ordem: values.data_ordem || null,
+          data_prazo: values.data_prazo || null,
+          data_inicio: values.data_inicio || null,
+          data_fim: values.data_fim || null,
           cod_ordemDeManutencao: code,
           status: Boolean(values.status),
         })
