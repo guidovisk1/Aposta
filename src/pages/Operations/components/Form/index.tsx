@@ -185,9 +185,10 @@ const Form: React.FC<FormProps> = ({ title, operationSelected, onSave }) => {
               swalSuccess('Operação editada com sucesso!');
               onSave();
             })
-            .catch(() =>
+            .catch(message =>
               swalError(
-                'Um erro ocorreu na edição da Operação. Revise as informações e tente novamente',
+                message.response.data ||
+                  'Um erro ocorreu na edição da Operação. Revise as informações e tente novamente',
               ),
             );
         }
@@ -197,9 +198,10 @@ const Form: React.FC<FormProps> = ({ title, operationSelected, onSave }) => {
             swalSuccess('Operação criada com sucesso!');
             onSave();
           })
-          .catch(() =>
+          .catch(message =>
             swalError(
-              'Um erro ocorreu na criação do Operação. Revise as informações e tente novamente',
+              message.response.data ||
+                'Um erro ocorreu na criação do Operação. Revise as informações e tente novamente',
             ),
           );
       }}

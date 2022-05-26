@@ -102,9 +102,10 @@ const Form: React.FC<FormProps> = ({
               swalSuccess('Ferramenta editada com sucesso!');
               onSave();
             })
-            .catch(() =>
+            .catch(message =>
               swalError(
-                'Um erro ocorreu na edição da ferramenta. Revise as informações e tente novamente',
+                message.response.data ||
+                  'Um erro ocorreu na edição da ferramenta. Revise as informações e tente novamente',
               ),
             );
         }
@@ -115,9 +116,10 @@ const Form: React.FC<FormProps> = ({
             swalSuccess('Ferramenta criada com sucesso!');
             onSave();
           })
-          .catch(() =>
+          .catch(message =>
             swalError(
-              'Um erro ocorreu na criação da ferramenta. Revise as informações e tente novamente',
+              message.response.data ||
+                'Um erro ocorreu na criação da ferramenta. Revise as informações e tente novamente',
             ),
           );
       }}

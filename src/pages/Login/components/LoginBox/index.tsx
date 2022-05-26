@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useFormik } from 'formik';
 import { useAuth } from '../../../../hooks/Auth/auth';
@@ -23,13 +23,24 @@ const LoginBox: React.FC = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const showErrorModal = () => {
+  const [checkboxValue, setCheckboxValue] = useState(true);
+
+  const showErrorModal = (message: string) => {
     return Swal.fire({
       title: 'Algo deu errado!',
-      text: 'Algo deu errado durante o processo de login. Revise as informações e tente novamente.',
+      text:
+        message ||
+        'Algo deu errado durante o processo de login. Revise as informações e tente novamente.',
       icon: 'error',
       confirmButtonColor: '#FF5427',
     });
+  };
+
+  const handleRememberUser = (email: string, password: string) => {
+    if (checkboxValue) {
+      localStorage.setItem('email', email);
+      localStorage.setItem('password', password);
+    }
   };
 
   const {
@@ -40,6 +51,7 @@ const LoginBox: React.FC = () => {
     touched,
     handleBlur,
     setFieldValue,
+    setFieldTouched,
     handleSubmit,
   } = useFormik({
     initialValues: {
@@ -49,16 +61,34 @@ const LoginBox: React.FC = () => {
     validationSchema: validations,
     onSubmit: async () => {
       setIsLoading(true);
+      handleRememberUser(values.email, values.password);
       await auth
         .signIn({ email: values.email, password: values.password })
-        .catch(() => {
-          showErrorModal();
+        .catch(message => {
+          showErrorModal(message.response.data);
         })
         .finally(() => {
           setIsLoading(false);
         });
     },
   });
+
+  useEffect(() => {
+    const email = localStorage.getItem('email');
+    const password = localStorage.getItem('password');
+
+    async function setFields() {
+      if (email && password) {
+        await setFieldValue('email', email);
+        await setFieldTouched('email', true);
+
+        await setFieldTouched('password', true);
+        await setFieldValue('password', password);
+      }
+    }
+
+    setFields();
+  }, [setFieldValue, setFieldTouched]);
 
   const handleEmailChangeText = (value: string) => {
     setFieldValue('email', value);
@@ -101,7 +131,11 @@ const LoginBox: React.FC = () => {
         name="password"
       />
       <ButtonsWrapper>
-        <Checkbox labelText="Lembrar usuário" />
+        <Checkbox
+          labelText="Lembrar usuário"
+          checked={checkboxValue}
+          onChange={e => setCheckboxValue(e.target.checked)}
+        />
         <Button
           disabled={!dirty || !isValid}
           loading={isLoading}

@@ -73,8 +73,8 @@ const EPIs: React.FC = () => {
     <>
       {url && (
         <ImagePreview
-          name="Mona Liza"
-          code="DAVINCI"
+          name={selectedEpi.descricao}
+          code={selectedEpi.cod_epi}
           imgUrl={url}
           onClose={() => setUrl('')}
         />

@@ -103,9 +103,10 @@ const Form: React.FC<FormProps> = ({
               swalSuccess('Equipamento editado com sucesso!');
               onSave();
             })
-            .catch(() =>
+            .catch(message =>
               swalError(
-                'Um erro ocorreu na edição do equipamento. Revise as informações e tente novamente',
+                message.response.data ||
+                  'Um erro ocorreu na edição do equipamento. Revise as informações e tente novamente',
               ),
             );
         }
@@ -115,9 +116,10 @@ const Form: React.FC<FormProps> = ({
             swalSuccess('Equipamento criado com sucesso!');
             onSave();
           })
-          .catch(() =>
+          .catch(message =>
             swalError(
-              'Um erro ocorreu na criação do equipamento. Revise as informações e tente novamente',
+              message.response.data ||
+                'Um erro ocorreu na criação do equipamento. Revise as informações e tente novamente',
             ),
           );
       }}

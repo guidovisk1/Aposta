@@ -85,8 +85,8 @@ const Equipments: React.FC = () => {
     <>
       {url && (
         <ImagePreview
-          name="Mona Liza"
-          code="DAVINCI"
+          name={selectedEquipment.descricao}
+          code={selectedEquipment.cod_equipamento}
           imgUrl={url}
           onClose={() => setUrl('')}
         />

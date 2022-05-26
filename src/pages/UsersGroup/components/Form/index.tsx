@@ -80,9 +80,10 @@ const Form: React.FC<FormProps> = ({ title, userGroupSelected, onSave }) => {
               swalSuccess('Grupo de Usuários editado com sucesso!');
               onSave();
             })
-            .catch(() =>
+            .catch(message =>
               swalError(
-                'Um erro ocorreu na edição do Grupo de Usuário. Revise as informações e tente novamente',
+                message.response.data ||
+                  'Um erro ocorreu na edição do Grupo de Usuário. Revise as informações e tente novamente',
               ),
             );
         }
@@ -96,9 +97,10 @@ const Form: React.FC<FormProps> = ({ title, userGroupSelected, onSave }) => {
             swalSuccess('Grupo de Usuários criado com sucesso!');
             onSave();
           })
-          .catch(() =>
+          .catch(message =>
             swalError(
-              'Um erro ocorreu na criação do Grupo de Usuários. Revise as informações e tente novamente',
+              message.response.data ||
+                'Um erro ocorreu na criação do Grupo de Usuários. Revise as informações e tente novamente',
             ),
           );
       }}

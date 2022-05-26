@@ -191,8 +191,11 @@ const Form: React.FC<FormProps> = ({
               swalSuccess('Ordem editada com sucesso');
               onSave();
             })
-            .catch(() =>
-              swalError('Algo deu errado! Ordem não pode ser editado'),
+            .catch(message =>
+              swalError(
+                message.response.data ||
+                  'Algo deu errado! Ordem não pode ser editado',
+              ),
             );
         }
         return createMaintananceRequests({
@@ -208,9 +211,10 @@ const Form: React.FC<FormProps> = ({
             swalSuccess('Ordem criada com sucesso!');
             onSave();
           })
-          .catch(() =>
+          .catch(message =>
             swalError(
-              'Algo deu errado. Revise as informações e tente novamente',
+              message.response.data ||
+                'Algo deu errado. Revise as informações e tente novamente',
             ),
           );
       }}

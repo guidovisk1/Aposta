@@ -71,10 +71,12 @@ const RequestsApproval: React.FC = () => {
           });
           history.push('/dashboard/consulta-ordens-manutencao');
         })
-        .catch(() => {
+        .catch(message => {
           return Swal.fire({
             title: 'Algo deu errado!',
-            text: 'Não foi possível aprovar/rejeitar a ordem. Tente novamente.',
+            text:
+              message.response.data ||
+              'Não foi possível aprovar/rejeitar a ordem. Tente novamente.',
             icon: 'error',
             allowOutsideClick: false,
             confirmButtonColor: '#FF5427',

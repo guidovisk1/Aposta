@@ -137,8 +137,11 @@ const Form: React.FC<FormProps> = ({ title, userSelected, onSave }) => {
               swalSuccess('Usuário editado com sucesso');
               onSave();
             })
-            .catch(() =>
-              swalError('Algo deu errado! Usuário não pode ser editado'),
+            .catch(message =>
+              swalError(
+                message.response.data ||
+                  'Algo deu errado! Usuário não pode ser editado',
+              ),
             );
         }
         return createUser({
@@ -150,11 +153,12 @@ const Form: React.FC<FormProps> = ({ title, userSelected, onSave }) => {
             swalSuccess('Usuário criado com sucesso!');
             onSave();
           })
-          .catch(() =>
+          .catch(message => {
             swalError(
-              'Algo deu errado. Revise as informações e tente novamente',
-            ),
-          );
+              message.response.data ||
+                'Algo deu errado! Usuário não pode ser editado',
+            );
+          });
       }}
       validationSchema={validations}
     >

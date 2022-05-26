@@ -105,9 +105,10 @@ const Form: React.FC<FormProps> = ({
               swalSuccess('EPI editado com sucesso!');
               onSave();
             })
-            .catch(() =>
+            .catch(message =>
               swalError(
-                'Um erro ocorreu na edição do EPI. Revise as informações e tente novamente',
+                message.response.data ||
+                  'Um erro ocorreu na edição do EPI. Revise as informações e tente novamente',
               ),
             );
         }
@@ -118,9 +119,10 @@ const Form: React.FC<FormProps> = ({
             swalSuccess('ferramenta criada com sucesso!');
             onSave();
           })
-          .catch(() =>
+          .catch(message =>
             swalError(
-              'Um erro ocorreu na criação do EPI. Revise as informações e tente novamente',
+              message.response.data ||
+                'Um erro ocorreu na criação do EPI. Revise as informações e tente novamente',
             ),
           );
       }}
