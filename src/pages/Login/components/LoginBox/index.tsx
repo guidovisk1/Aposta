@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useFormik } from 'formik';
+import { useHistory } from 'react-router-dom';
 import { useAuth } from '../../../../hooks/Auth/auth';
 
 import Button from '../../../../components/Button';
@@ -20,6 +21,7 @@ import validations from './validations';
 
 const LoginBox: React.FC = () => {
   const auth = useAuth();
+  const history = useHistory();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -147,7 +149,9 @@ const LoginBox: React.FC = () => {
       </ButtonsWrapper>
 
       <LineSeparator />
-      <ForgetPasswordText>Esqueci minha senha</ForgetPasswordText>
+      <ForgetPasswordText onClick={() => history.push('recuperar-senha')}>
+        Esqueci minha senha
+      </ForgetPasswordText>
     </Container>
   );
 };
