@@ -28,6 +28,17 @@ const LoginBox: React.FC = () => {
     });
   };
 
+  const showSuccessModal = (message?: string) => {
+    return Swal.fire({
+      title: 'Tudo certo!',
+      text:
+        message ||
+        'As instruções de redefinição de senha foram enviadas para o seu e-mail.',
+      icon: 'success',
+      confirmButtonColor: '#FF5427',
+    });
+  };
+
   const {
     dirty,
     isValid,
@@ -46,7 +57,9 @@ const LoginBox: React.FC = () => {
       setIsLoading(true);
       api
         .post('/usuarios/forgetpwd', { email: values.email })
-
+        .then(() => {
+          showSuccessModal();
+        })
         .catch(err => {
           showErrorModal(err.response.data);
         })

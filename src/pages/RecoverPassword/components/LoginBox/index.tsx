@@ -33,13 +33,14 @@ const LoginBox: React.FC = () => {
     });
   };
 
-  const showSuccessModal = (message?: string) => {
-    return Swal.fire({
+  const showSuccessModal = async (message?: string) => {
+    await Swal.fire({
       title: 'Tudo certo!',
       text: message || 'Sua senha foi redefinida com sucesso.',
       icon: 'success',
       confirmButtonColor: '#FF5427',
     });
+    history.push('/');
   };
 
   const {
