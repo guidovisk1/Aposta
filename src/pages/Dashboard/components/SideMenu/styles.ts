@@ -215,13 +215,13 @@ export const MenuItem = styled(Link)<MenuItem>`
   ${props =>
     props.isActive &&
     css`
-      border-right: 4.5px solid #ff5427;
+      border-right: 4.5px solid #39ff14;
       background: rgba(0, 0, 0, 0.2);
     `}
 
   &:hover {
     background: rgba(0, 0, 0, 0.2);
-    border-right: 4.5px solid #ff5427;
+    border-right: 4.5px solid #39ff14;
   }
 
   & img:hover {

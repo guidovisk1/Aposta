@@ -33,7 +33,7 @@ export const AddButton = styled.button`
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background-color: #ff5427;
+  background-color: #39ff14;
   outline: 0;
   border: none;
 

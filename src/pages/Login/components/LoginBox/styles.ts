@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.form`
   width: 500px;
-  height: 429px;
+  height: 479px;
   background-color: #fff;
   z-index: 99;
   position: absolute;
@@ -16,7 +16,7 @@ export const Container = styled.form`
 `;
 
 export const MainTitle = styled.h1`
-  color: #005ebd;
+  color: #39ff14;
   font-weight: bold;
   font-size: 20px;
 `;
@@ -32,7 +32,13 @@ export const ButtonsWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 28px;
+  margin-top: 40px;
+`;
+
+export const ButtonsWrapper2 = styled.div`
+  width: 100%;
+  margin-left: 6rem;
+  margin-top: 60px;
 `;
 
 export const LineSeparator = styled.hr`

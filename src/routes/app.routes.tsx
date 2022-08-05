@@ -17,51 +17,17 @@ import RequestsApproval from '../pages/RequestsApproval';
 const AppRoutes: React.FC = () => {
   return (
     <Switch>
-      <Route isPrivate exact path="/dashboard/users" component={Users} />
-      <Route
-        isPrivate
-        exact
-        path="/dashboard/grupo-usuario"
-        component={UsersGroup}
-      />
-      <Route
-        isPrivate
-        exact
-        path="/dashboard/equipamentos"
-        component={Equipments}
-      />
-      <Route isPrivate exact path="/dashboard/ferramentas" component={Tools} />
-      <Route isPrivate exact path="/dashboard/epis" component={EPIs} />
-      <Route
-        isPrivate
-        exact
-        path="/dashboard/treinamentos"
-        component={Trainings}
-      />
+    
+    
+      
       <Route
         isPrivate
         exact
         path="/dashboard/operacoes"
         component={Operations}
       />
-      <Route
-        isPrivate
-        exact
-        path="/dashboard/ordens-manutencao"
-        component={MaintananceRequests}
-      />
-      <Route
-        isPrivate
-        exact
-        path="/dashboard/consulta-ordens-manutencao"
-        component={MaintananceRequestList}
-      />
-      <Route
-        isPrivate
-        exact
-        path="/dashboard/ordens-manutencao-aprovacao/:id"
-        component={RequestsApproval}
-      />
+      
+     
       <RouterDom path="*" render={() => <Redirect to="/" />} />
     </Switch>
   );

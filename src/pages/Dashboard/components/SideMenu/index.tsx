@@ -82,7 +82,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
                 <span>{option.title}</span>
               </MenuItemOpened>
             ))}
-          <MenuItemOpened to="/dashboard">
+          <MenuItemOpened to="/dashboard/operacoes">
             <img src={icons.gotItLarge} />
           </MenuItemOpened>
         </MenuList>
@@ -113,7 +113,7 @@ const SideMenu: React.FC<SideMenuProps> = ({
                 <img src={icons[option.icon]} alt={option.title} />
               </MenuItem>
             ))}
-          <MenuItem to="/dashboard">
+          <MenuItem to="/dashboard/operacoes">
             <img src={icons.gotIt} />
           </MenuItem>
         </MenuList>

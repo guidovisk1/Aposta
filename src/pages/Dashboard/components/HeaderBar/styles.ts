@@ -50,7 +50,7 @@ export const ExitAndUserNameWrapper = styled.div`
 
 export const UserName = styled.span`
   font-size: 13px;
-  color: #ea2828;
+  color: #39ff14;
   letter-spacing: 1.3px;
   margin-right: 8.5px;
   font-weight: 600;

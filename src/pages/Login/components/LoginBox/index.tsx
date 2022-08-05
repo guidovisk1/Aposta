@@ -14,6 +14,7 @@ import {
   SecondaryText,
   LineSeparator,
   ButtonsWrapper,
+  ButtonsWrapper2,
   ForgetPasswordText,
 } from './styles';
 
@@ -102,7 +103,7 @@ const LoginBox: React.FC = () => {
 
   return (
     <Container>
-      <MainTitle>Sistema de Manutenção e Inspenção</MainTitle>
+      <MainTitle>Desafio Tela Operação</MainTitle>
       <SecondaryText>Acesse sua conta</SecondaryText>
 
       <Input
@@ -138,7 +139,12 @@ const LoginBox: React.FC = () => {
           checked={checkboxValue}
           onChange={e => setCheckboxValue(e.target.checked)}
         />
-        <Button
+       
+      </ButtonsWrapper>
+
+   
+      <ButtonsWrapper2>
+          <Button
           disabled={!dirty || !isValid}
           loading={isLoading}
           onClick={() => handleSubmit()}
@@ -146,12 +152,8 @@ const LoginBox: React.FC = () => {
         >
           Login
         </Button>
-      </ButtonsWrapper>
-
-      <LineSeparator />
-      <ForgetPasswordText onClick={() => history.push('recuperar-senha')}>
-        Esqueci minha senha
-      </ForgetPasswordText>
+      </ButtonsWrapper2>
+     
     </Container>
   );
 };

@@ -38,7 +38,7 @@ export const RoundedOutline = styled.div`
   width: 35px;
   height: 35px;
   border-radius: 100%;
-  border: 2px solid #ff5427;
+  border: 2px solid #39ff14;
   display: flex;
   justify-content: center;
   align-items: center;

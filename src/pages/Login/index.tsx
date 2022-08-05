@@ -10,9 +10,7 @@ const Login: React.FC = () => {
   return (
     <Container>
       <LoginBox />
-      <LogoWrapper>
-        <img src={logo} alt="GoIt" />
-      </LogoWrapper>
+     
 
       <PatternLogin src={patternLogin} alt="pattern" />
     </Container>
